@@ -30,5 +30,33 @@ void TDMA(int n)
         x = i*h;
 
     }
+    a[0] = 0;
+    c[n-1] = 0;
 
-}
+    /*
+     * Implementing the Thomas Algorithm
+     */
+
+    // Forward substitution
+    lambda[0] = b[0];
+    y[0] = b_func[0];
+    for (int i = 1; i < n; i++)
+    {
+
+        gamma[i] = a[i]/lambda[i-1];
+        lambda[i] = b[i] - gamma[i]*c[i-1];
+        y[i] = b_func[i] - gamma[i]*y[i-1];
+
+    }
+
+    // Backward substitution
+    v[n-1] = y[n-1]/gamma[n-1];
+    for (int i = n-2; i >= 0; i--)
+    {
+
+        // gamma[0] = 0...
+        v[i] = (y[i] - c[i]*v[i+1])/gamma[i];
+
+    }
+
+};
