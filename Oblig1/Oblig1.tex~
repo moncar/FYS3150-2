@@ -1,0 +1,25 @@
+/documentclass[11pt, a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
+\pagestyle{empty}
+
+\title{\normalsize FYS3150 Computational Physics 2014\\
+\vspace{10mm}
+\huge Project 1\\
+\vspace{10mm}
+\normalsize {\bf Gaussian elimination and tridiagonal operations}}
+
+\author{Øyvind Sigmundson Schøyen}
+
+\begin{document}
+
+\maketitle
+
+
+\end{document}
