@@ -47,6 +47,22 @@ vec TDMA(int n, vec a, vec b, vec c)
 
 };
 
+vec LU(int n, vec a, vec b, vec c)
+{
+
+    vec v = zeros<vec>(n);
+    mat A = zeros(n, n);
+
+
+    for (int i = 0; i < n; i++) {
+    }
+
+    cout << A << endl;
+
+    return v;
+
+};
+
 
 int main(int argc, char* argv[])
 {
@@ -73,7 +89,9 @@ int main(int argc, char* argv[])
     a[0] = 0;
     c[n-1] = 0;
 
+    v = LU(n, a, b, c);
     v = TDMA(n, a, b, c);
+
 
     cout << v << endl;
 
