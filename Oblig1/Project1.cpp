@@ -52,12 +52,22 @@ vec LU(int n, vec a, vec b, vec c)
 
     vec v = zeros<vec>(n);
     mat A = zeros(n, n);
+    mat L, U, P;
 
+    A(0, 0) = b[0];
+    A(0, 1) = b[1];
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 1; i < n-1; i++) {
+        A(i-1, i) = a[i];
+        A(i, i) = b[i];
+        A(i+1, i) = c[i];
     }
 
-    cout << A << endl;
+    A(n-1, n-2) = a[n-1];
+    A(n-1, n-1) = b[n-1];
+
+    mat B = P.t()*L*U;
+    cout << B << endl;
 
     return v;
 
@@ -93,7 +103,6 @@ int main(int argc, char* argv[])
     v = TDMA(n, a, b, c);
 
 
-    cout << v << endl;
 
     return 0;
 
