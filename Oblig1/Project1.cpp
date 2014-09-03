@@ -90,10 +90,25 @@ vec LU(int n, vec a, vec b, vec c)
 
     lu(L, U, P, A);
 
-    gamma[0] = 0;
-    for (int i = 0; i < n; i++) {
+    y[0] = h*h*exp(-10*x);
+    gamma[0] = y[0]*L(1, 0);
+    for (int i = 1; i < n; i++) {
 
-        y[i] = h*h*exp(-10*x) - gamma[i];
+        x = i*h;
+        y[i] = h*h*exp(-10*x) - gamma[i-1];
+        for (int j = 0; j < i; j++) {
+
+            gamma[i] += L(i, j)*y[j];
+
+        }
+    }
+
+    lambda[n-1] = U(n-1, n-1);
+    for (int i = n-1, i >= 0; i--) {
+
+        v[i] = y[i]/lambda[i];
+
+        for (int j = n-1; j >= i; 
 
     }
 
