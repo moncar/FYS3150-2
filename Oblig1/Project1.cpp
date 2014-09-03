@@ -5,7 +5,7 @@
 using namespace std;
 using namespace arma;
 
-void TDMA(int n, vec a, vec b, vec c) 
+vec TDMA(int n, vec a, vec b, vec c) 
 {
 
     vec gamma = zeros<vec>(n);
@@ -43,15 +43,29 @@ void TDMA(int n, vec a, vec b, vec c)
 
     }
 
+    return v;
+
 };
 
-int main()
+
+int main(int argc, char* argv[])
 {
 
-    int n = 10;
+    // Check the number of parameters
+    if (argc < 2)
+    {
+
+        cout << "Usage: " << argv[0] << " (int n)" << endl;
+        exit(1);
+
+    }
+
+    int n = atoi(argv[1]);
+
     vec a = zeros<vec>(n);
     vec b = zeros<vec>(n);
     vec c = zeros<vec>(n);
+    vec v;
 
     a.fill(-1);
     b.fill(2);
@@ -59,7 +73,9 @@ int main()
     a[0] = 0;
     c[n-1] = 0;
 
-    TDMA(n, a, b, c);
+    v = TDMA(n, a, b, c);
+
+    cout << v << endl;
 
     return 0;
 
