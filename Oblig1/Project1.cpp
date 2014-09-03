@@ -47,12 +47,34 @@ vec TDMA(int n, vec a, vec b, vec c)
 
 };
 
-vec LU(int n, vec a, vec b, vec c)
+
+
+vec GE(int n, vec a, vec b, vec c)
 {
 
     vec v = zeros<vec>(n);
     mat A = zeros(n, n);
+    double h = 1.0/(n+1);
+    double x = 0;
+
+    A(0, 0) = b[0];
+    A(0, 1) = b[1];
+
+
+
+};
+
+vec LU(int n, vec a, vec b, vec c)
+{
+
+    vec v = zeros<vec>(n);
+    vec gamma = zeros<vec>(n);
+    vec lambda = zeros<vec>(n);
+    vec y = zeros<vec>(n);
+    mat A = zeros(n, n);
     mat L, U, P;
+    double h = 1.0/(n+1);
+    double x = 0;
 
     A(0, 0) = b[0];
     A(0, 1) = b[1];
@@ -66,8 +88,14 @@ vec LU(int n, vec a, vec b, vec c)
     A(n-1, n-2) = a[n-1];
     A(n-1, n-1) = b[n-1];
 
-    mat B = P.t()*L*U;
-    cout << B << endl;
+    lu(L, U, P, A);
+
+    gamma[0] = 0;
+    for (int i = 0; i < n; i++) {
+
+        y[i] = h*h*exp(-10*x) - gamma[i];
+
+    }
 
     return v;
 
