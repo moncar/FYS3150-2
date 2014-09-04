@@ -1,6 +1,7 @@
 # include <cmath>
 # include <string>
 # include <armadillo>
+# include <cstdlib>
 # include <chrono>
 
 using namespace std;
@@ -122,7 +123,7 @@ int main(int argc, char* argv[])
     for (int i = 1; i < n; i++) {
 
         x[i] = i*h;
-        b_func[i] = h*h*100*exp(-10*x);
+        b_func[i] = h*h*100*exp(-10*x[i]);
 
     }
 
