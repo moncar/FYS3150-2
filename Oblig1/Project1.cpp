@@ -78,7 +78,7 @@ vec Gaussian(int n, vec a, vec b, vec c, vec b_func)
     v = solve(A, b_func);
 
     auto finish = high_resolution_clock::now();
-    cout << "Duration of Gaussian Elimination (without the construction of the matrix A): "
+    cout << "Duration of Gaussian Elimination: " 
          << duration_cast<nanoseconds>(finish - start).count()
          << "ns" << endl;
 
@@ -194,6 +194,7 @@ int main(int argc, char* argv[])
         file1000.close();
     } else cout << "Unable to write to file" << endl;
 
+    system("python Plotter.py");
 
     return 0;
 

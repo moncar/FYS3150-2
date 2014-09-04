@@ -1,8 +1,11 @@
 from matplotlib.pylab import plot, show, hold, xlabel, ylabel, figure, legend
-from numpy import zeros
+from numpy import zeros, exp
 
 
-
+"""
+Class Plotter accepts string filename.format.
+The class implements two methods writing and plotting 
+"""
 class Plotter:
 
     def __init__(self, solutions10, solutions100, solutions1000):
@@ -22,6 +25,7 @@ class Plotter:
         self.v10 = v10 = zeros(10)
         self.v100 = v100 = zeros(100)
         self.v1000 = v1000 = zeros(1000)
+        self.u = u = zeros(1000)
         file10 = open(solutions10, 'r')
         file100 = open(solutions100, 'r')
         file1000 = open(solutions1000, 'r')
@@ -45,22 +49,24 @@ class Plotter:
             splitted = values.split()
             x1000[i] = float(splitted[0])
             v1000[i] = float(splitted[1])
+            u[i] = 1 - (1 - exp(-10))*x1000[i] - exp(-10*x1000[i])
             i += 1
 
     def plotter(self):
 
-        x10, x100, x1000, v10, v100, v1000 =\
-        self.x10, self.x100, self.x1000, self.v10, self.v100, self.v1000
+        x10, x100, x1000, v10, v100, v1000, u =\
+        self.x10, self.x100, self.x1000, self.v10, self.v100, self.v1000, self.u
 
         plt10 = plot(x10, v10)
         hold('on')
         plt100 = plot(x100, v100)
         plt1000 = plot(x1000, v1000)
+        pltEXACT = plot(x1000, u)
 
         xlabel('x values')
         ylabel('v values')
 
-        legend(('n = 10', 'n = 100', 'n = 1000'), loc = 1)
+        legend(('n = 10', 'n = 100', 'n = 1000', 'EXACT'), loc = 1)
         hold('off')
 
         show()
