@@ -4,6 +4,7 @@
 # include <cstdlib>
 # include <iostream>
 // <fstream> allows for running command line in C++
+// This package is not run, but kept for later uses
 # include <fstream>
 # include <chrono>
 
@@ -23,10 +24,7 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
     // Starting clock
     auto start = high_resolution_clock::now();
     
-    /*
-     * Implementing the Thomas Algorithm
-     */
-
+    // Implementing the Thomas Algorithm
     // Forward substitution
     lambda[1] = b[1];
     v[1] = b_func[1]/lambda[1];
@@ -45,7 +43,6 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
     cout << "Duration of TDMA with n = " << n << ": " 
          << duration_cast<nanoseconds>(finish - start).count()
          << "ns" << endl;
-
 
     return v;
 
@@ -76,8 +73,7 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
     auto start = high_resolution_clock::now();
 
-    // Impelement LU
-
+    // Impelementing LU
     lu(L, U, P, A);
 
     // Forward sweep
@@ -107,8 +103,8 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
 };
 
-// Ampersand after type means reference. The variable is treated as a value
-// and changed globally.
+// Ampersand after type means reference. 
+// The variable is treated as a value and changed globally.
 void ErrorEstimate(int n, vec u, vec v, double& epsilon, int& location) {
 
     double temp;
@@ -117,10 +113,13 @@ void ErrorEstimate(int n, vec u, vec v, double& epsilon, int& location) {
         temp = abs((v[i] - u[i])/u[i]);
         if (epsilon < temp) epsilon = temp; location = i;
     }
+
     epsilon = log10(epsilon);
 };
 
-
+/*
+ * Main method dealing with the distrubution of variables and running methods.
+ */
 int main(int argc, char* argv[]) {
 
     // Check the number of parameters
@@ -187,7 +186,8 @@ int main(int argc, char* argv[]) {
 
     // Creating file containing error values
     ofstream errorFile("Errors.txt");
-    if (errorFile.is_open()) errorFile << errorLocation << "\t" << x[errorLocation] << "\t" << epsilon << endl;
+    if (errorFile.is_open()) errorFile << errorLocation << "\t" 
+                             << x[errorLocation] << "\t" << epsilon << endl;
     else cout << "Unable to write to file" << endl;
 
     return 0;

@@ -9,6 +9,7 @@ The class implements two methods writing and plotting
 """
 class Plotter:
 
+
     """
     Storing filename, the exact solution and grid points.
     """
@@ -17,6 +18,7 @@ class Plotter:
         self.solutions = solutions
         self.errors = errors
         self.n = n
+
 
     """
     Reading file and collecting numerical values from the algorithms.
@@ -29,14 +31,17 @@ class Plotter:
         self.v = v = zeros(n+2)
         self.u = u = zeros(n+2)
         fileVals = open(solutions, 'r')
+
+        # Extracting the error values, their location and x-values
         fileErrors = open(errors, 'r')
         for line in fileErrors:
             errorSplit = line.split()
             errorLocation = float(errorSplit[0])
             epsilon = float(errorSplit[2])
         
-        i = 0
 
+        # Extracting the exact, numerical and x values
+        i = 0
         for values in fileVals:
             splitted = values.split()
             x[i] = float(splitted[0])
@@ -46,6 +51,10 @@ class Plotter:
 
         return errorLocation, epsilon
 
+
+    """
+    Method for plotting the x, v and exact values.
+    """
     def plotValues(self, TITLE):
 
         x, v, u, n = self.x, self.v, self.u, self.n
@@ -65,9 +74,10 @@ class Plotter:
 
 
 
-
+# Method being run whem the python program is called by name.
 if __name__ == '__main__':
 
+    # Running the LU factorization for n in [10, 1000]
     for exponent in range(1, 4):
         n = 10**exponent
         os.system("./PROJECT1CPP-01 0 %g" % n)
@@ -75,6 +85,7 @@ if __name__ == '__main__':
         plotter.reader()
         plotter.plotValues("LU factorization")
 
+    # Running the TDMA for n in [10, 1000000]
     error = zeros(6)
     errorLocation = zeros(6)
     for exponent in range(1, 6):
@@ -88,11 +99,11 @@ if __name__ == '__main__':
     errorLocation[5], error[5] = plotter.reader()
     plotter.plotValues("TDMA")
 
+    # Plot errors outside of class
     plot(errorLocation, error)
     title("Errors in TDMA")
     xlabel("Number of iterations")
     ylabel("The largest error")
     xscale('log')
     show()
-# Plot errors outside
 
