@@ -1,5 +1,6 @@
 from matplotlib.pylab import plot, show, hold, xlabel, ylabel, figure, legend
 from numpy import zeros, exp
+import os
 
 
 """
@@ -8,74 +9,57 @@ The class implements two methods writing and plotting
 """
 class Plotter:
 
-    def __init__(self, solutions10, solutions100, solutions1000):
+    """
+    Storing filename, the exact solution and grid points.
+    """
+    def __init__(self, solutions, u, n):
 
-        self.solutions10 = solutions10
-        self.solutions100 = solutions100
-        self.solutions1000 = solutions1000
+        self.solutions = solutions
+        self.u = u
+        self.n = n
 
+    """
+    Reading file and collecting numerical values from the algorithms.
+    """
     def reader(self):
 
-        solutions10, solutions100, solutions1000 =\
-        self.solutions10, self.solutions100, self.solutions1000
+        solutions, u, n = self.solutions, self.u, self.n
 
-        self.x10 = x10 = zeros(10)
-        self.x100 = x100 = zeros(100)
-        self.x1000 = x1000 = zeros(1000)
-        self.v10 = v10 = zeros(10)
-        self.v100 = v100 = zeros(100)
-        self.v1000 = v1000 = zeros(1000)
-        self.u = u = zeros(1000)
-        file10 = open(solutions10, 'r')
-        file100 = open(solutions100, 'r')
-        file1000 = open(solutions1000, 'r')
+        self.x = x = zeros(n+2)
+        self.v = v = zeros(n+2)
+        self.u = u = zeros(n+2)
+        file = open(solutions, 'r')
         i = 0
 
-        for values in file10: 
+        for values in file:
             splitted = values.split()
-            x10[i] = float(splitted[0])
-            v10[i] = float(splitted[1])
+            x[i] = float(splitted[0])
+            v[i] = float(splitted[1])
             i += 1
 
-        i = 0
-        for values in file100: 
-            splitted = values.split()
-            x100[i] = float(splitted[0])
-            v100[i] = float(splitted[1])
-            i += 1
+    def plotValues(self):
 
-        i = 0
-        for values in file1000: 
-            splitted = values.split()
-            x1000[i] = float(splitted[0])
-            v1000[i] = float(splitted[1])
-            u[i] = 1 - (1 - exp(-10))*x1000[i] - exp(-10*x1000[i])
-            i += 1
+        x, v, u, n = self.x, self.v, self.u, self.n
 
-    def plotter(self):
-
-        x10, x100, x1000, v10, v100, v1000, u =\
-        self.x10, self.x100, self.x1000, self.v10, self.v100, self.v1000, self.u
-
-        plt10 = plot(x10, v10)
+        plt = plot(x, v)
         hold('on')
-        plt100 = plot(x100, v100)
-        plt1000 = plot(x1000, v1000)
-        pltEXACT = plot(x1000, u)
+        pltEXACT = plot(x, u)
 
         xlabel('x values')
-        ylabel('v values')
+        ylabel('function values')
 
-        legend(('n = 10', 'n = 100', 'n = 1000', 'EXACT'), loc = 1)
+        legend(('n = %g' %  n, 'EXACT'), loc = 1)
         hold('off')
 
         show()
 
 
 
+
 if __name__ == '__main__':
 
-    plotter = Plotter('Solutions10.txt', 'Solutions100.txt', 'Solutions1000.txt')
+    plotter = Plotter('Solutions.txt')
     plotter.reader()
-    plotter.plotter()
+    plotter.plotValues()
+# Plot errors outside
 
