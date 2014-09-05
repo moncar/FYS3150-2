@@ -130,8 +130,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Creating vectors of length n
-    long long int n = atoi(argv[2]);
-    cout << n << endl;
+    int n = atoi(argv[2]);
     int errorLocation;
     vec x = zeros<vec>(n+2);
     double h = 1.0/(n+1);
