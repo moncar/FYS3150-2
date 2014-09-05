@@ -58,23 +58,22 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
 vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
     // Here be dragons
-    mat A = zeros(n+2, n+2);
+    mat A = zeros(n, n);
     mat L, U, P;
     vec v = zeros(n+2);
     vec y = zeros(n+2);
-    double temp;
 
     A(0, 0) = b[0];
     A(0, 1) = c[0];
 
-    for (int i = 1; i < n+1; i++) {
+    for (int i = 1; i < n-1; i++) {
         A(i, i-1) = a[i];
         A(i, i) = b[i];
         A(i, i+1) = c[i];
     }
 
-    A(n+1, n) = a[n+1];
-    A(n+1, n+1) = b[n+1];
+    A(n-1, n-2) = a[n+1];
+    A(n-1, n-1) = b[n+1];
 
     auto start = high_resolution_clock::now();
 
@@ -82,25 +81,22 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
     lu(L, U, P, A);
 
-    y[1] = b_func[1]/L(1, 1);
-    y[2] = (b_func[2] - L(2, 1)*y[1])/L(2, 2);
-    for (int i = 3; i < n+1; i++) {
+    for (int i = 1; i < n+1; i++) {
+        y[i] = b_func[i];
         for (int j = 1; j < i; j++) {
-            temp += L(i, j)*y[j];
+            y[i] -= L(i-1, j-1)*y[j];
         }
-        y[i] = (b_func[i] - temp)/L(i, i);
-    }
-
-    temp = 0;
-    v[n] = y[n]/U(n, n);
-    v[n-1] = (y[n-1] - U(n-1, n)*v[n])/U(n-1, n-1);
-    for (int i = n-2; i > 0; i--) {
-        for (int j = n; j > i; j--) {
-            temp += U(i, j)*v[j];
-        }
-        v[i] = (y[i] - temp)/U(i, i);
+        y[i] /= L(i-1, i-1);
     }
     
+    for (int i = n; i > 0; i--) {
+        v[i] = y[i];
+        for (int j = i+1; j < n + 1; j++) {
+            v[i] -= U(i-1, j-1)*v[j];
+        }
+        v[i] /= U(i-1, i-1);
+    }
+
     cout << v << endl;
 
     auto finish = high_resolution_clock::now();
