@@ -42,7 +42,7 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
     }
 
     auto finish = high_resolution_clock::now();
-    cout << "Duration of TDMA with n = " << n+2 << ": " 
+    cout << "Duration of TDMA with n = " << n << ": " 
          << duration_cast<nanoseconds>(finish - start).count()
          << "ns" << endl;
 
@@ -57,7 +57,6 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
  */
 vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
-    // Here be dragons
     mat A = zeros(n, n);
     mat L, U, P;
     vec v = zeros(n+2);
@@ -81,6 +80,7 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
 
     lu(L, U, P, A);
 
+    // Forward sweep
     for (int i = 1; i < n+1; i++) {
         y[i] = b_func[i];
         for (int j = 1; j < i; j++) {
@@ -89,6 +89,7 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
         y[i] /= L(i-1, i-1);
     }
     
+    // Backward sweep
     for (int i = n; i > 0; i--) {
         v[i] = y[i];
         for (int j = i+1; j < n + 1; j++) {
@@ -97,10 +98,8 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
         v[i] /= U(i-1, i-1);
     }
 
-    cout << v << endl;
-
     auto finish = high_resolution_clock::now();
-    cout << "Duration of Gaussian Elimination with n = " << n+2 << ": " 
+    cout << "Duration of Gaussian Elimination with n = " << n << ": " 
          << duration_cast<nanoseconds>(finish - start).count()
          << "ns" << endl;
 
@@ -131,7 +130,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Creating vectors of length n
-    int n = atoi(argv[2]);
+    long long int n = atoi(argv[2]);
+    cout << n << endl;
     int errorLocation;
     vec x = zeros<vec>(n+2);
     double h = 1.0/(n+1);
@@ -162,6 +162,7 @@ int main(int argc, char* argv[]) {
         b_func[i] = h*h*100*exp(-10*x[i]);
         u[i] = 1 - (1 - exp(-10))*x[i] - exp(-10*x[i]);
     }
+    x[n+1] = 1;
 
     // Choosing method for solution 
     if (atoi(argv[1]) == 0) {
@@ -181,7 +182,7 @@ int main(int argc, char* argv[]) {
     ofstream file("Solutions.txt");
     if (file.is_open()) {
         for (int i = 0; i < n+2; i++) {
-            file << x[i] << "\t" << v[i] << "\n";
+            file << x[i] << "\t" << v[i] << "\t" << u[i] << "\n";
         }
     } else cout << "Unable to write to file" << endl;
 
