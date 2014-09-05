@@ -60,10 +60,12 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
     // Here be dragons
     mat A = zeros(n+2, n+2);
     mat L, U, P;
-    vec v, y;
+    vec v = zeros(n+2);
+    vec y = zeros(n+2);
+    double temp;
 
     A(0, 0) = b[0];
-    A(0, 1) = c[1];
+    A(0, 1) = c[0];
 
     for (int i = 1; i < n+1; i++) {
         A(i, i-1) = a[i];
@@ -79,8 +81,27 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
     // Impelement LU
 
     lu(L, U, P, A);
-    y = solve(L, b_func);
-    v = solve(U, y);
+
+    y[1] = b_func[1]/L(1, 1);
+    y[2] = (b_func[2] - L(2, 1)*y[1])/L(2, 2);
+    for (int i = 3; i < n+1; i++) {
+        for (int j = 1; j < i; j++) {
+            temp += L(i, j)*y[j];
+        }
+        y[i] = (b_func[i] - temp)/L(i, i);
+    }
+
+    temp = 0;
+    v[n] = y[n]/U(n, n);
+    v[n-1] = (y[n-1] - U(n-1, n)*v[n])/U(n-1, n-1);
+    for (int i = n-2; i > 0; i--) {
+        for (int j = n; j > i; j--) {
+            temp += U(i, j)*v[j];
+        }
+        v[i] = (y[i] - temp)/U(i, i);
+    }
+    
+    cout << v << endl;
 
     auto finish = high_resolution_clock::now();
     cout << "Duration of Gaussian Elimination with n = " << n+2 << ": " 
