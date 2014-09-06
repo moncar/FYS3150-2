@@ -112,7 +112,7 @@
       \end{align}
     \end{equation*}
 
-\section{Algoritmen}
+\section{Algoritma}
   For å løyse ei matriselikning bruker me radoperasjoner på matrisa. Desse vil igjen bli utførde på
   løysningsvektoren (her kalla $\mathbf{\tilde{b}}$). Målet med likninga er å omforme matrisa til ei 
   spesiell øvre-  og nedrematrise som me kan løyse. 
@@ -151,19 +151,63 @@
       \end{align}
     \end{equation*}
     Multiplikasjon av matrisene $LU$ vil gje oss $A$. Me bruker dette til å finne eit uttrykk for 
-    $\gamma_i, \ \forall \ i \in [2, n]$ og $\lambda_i, \ \forall \ i \ \in [1, n]$. Det vil gje oss
+    $\gamma_i, \ \forall \ i \in [1, n-1]$ og $\lambda_i, \ \forall \ i \ \in [1, n]$. Det vil gje oss
     \begin{equation*}
       \begin{align}
-        &\lambda_1 = b_1, \\
-        &\lambda_1\gamma_2 = a_2, \\
-        &c_1\gamma_2 + \lambda_2 = b_2, \\
+        &\lambda_1 = b_1, \qquad \gamma_1 = \frac{c_1}{\lambda_1}, \\
+        &\lambda_2 = b_2 - a_2\gamma_1, \qquad \gamma_2 = \frac{c_2}{\lambda_2} \\ 
         &\dots \\
-        &\gamma_i = \frac{a_{i}}{\lambda_{i-1}}, \\
-        &\lambda_i = b_i - c_{i-1}\gamma_i, \\
+        &\lambda_i = b_i - a_i\gamma_{i-1}, \qquad \gamma_i = \frac{c_i}{\lambda_{i}}, \\
         &\dots \\
-        &\gamma_n = \frac{a_n}{\lambda_{n-1}}, \\
-        &\lambda_n = b_n - c_{n-1}\gamma_n.
+        &\lambda_n = b_n - a_n\gamma_{n-1}, \qquad \gamma_n = \frac{c_n}{\lambda_n}.
       \end{align}
     \end{equation*}
-  
+
+  \subsection{Forward Substitution}
+    No gjenstår det å løyse likningane $L\mathbf{y} = \mathbf{\tilde{b}}$ og $U\mathbf{v} =
+    \mathbf{y}$. I programmet vil dette bli gjort litt annleis. Der vil me løyse $L\mathbf{v} 
+    = \mathbf{\tilde{b}}$ og $U\mathbf{v} = \mathbf{v}$. Dette for å spare plass i minnet, men det 
+    kjem me til. Likninga $L\mathbf{y} = \mathbf{\tilde{b}}$ vil gje oss likningssetta under.
+    
+    \begin{equation*}
+      \begin{align}
+        \lambda_1y_1 = \tilde{b}_1 \qquad &\Rightarrow \qquad y_1 = \frac{\tilde{b}_1}{\lambda_1}, \\
+        a_2y_1 + \lambda_2y_2 = \tilde{b}_2 \qquad &\Rightarrow \qquad y_2 = \frac{\tilde{b}_2 - a_2
+        y_1}{\lambda_2}, \\
+        &\dots \\
+        a_iy_{i-1} + \lambda_iy_i = \tilde{b}_i \qquad &\Rightarrow \qquad y_i = \frac{\tilde{b}_i
+        - a_iy_{i-1}}{\lambda_i}, \\
+        &\dots \\
+        a_ny_{n-1} + \lambda_ny_n = \tilde{b}_n \qquad &\Rightarrow \qquad y_n = \frac{\tilde{b}_n
+        - a_ny_{n-1}}{\lambda_n}.
+      \end{align}
+    \end{equation*}
+
+  \subsection{Backward Substitution}
+    Til slutt bruker me backward substitution til å finne den endelege løysninga. Me må då løyse
+    likninga $U\mathbf{v} = \mathbf{y}$. Denne likninga må me løyse baklengs. Me får
+
+    \begin{equation*}
+      \begin{align}
+        v_n &= y_n, \\
+        v_{n-1} + \gamma_{n-1}v_n = y_{n-1} \qquad &\Rightarrow \qquad v_{n-1} = y_{n-1} - 
+        \gamma_{n-1}v_n, \\
+        &\dots \\
+        v_i + \gamma_iv_{n+1} = y_i \qquad &\Rightarrow \qquad v_i = y_i - \gamma_iv_{i+1}, \\
+        &\dots \\
+        v_1 + \gamma_1v_2 = y_1 \qquad &\Rightarrow \qquad v_1 = y_1 - \gamma_1v_2.
+      \end{align}
+    \end{equation*}
+
+  \subsection{Antal FLOPS}
+    For å finne ut kor mange flyttalsoperasjoner (FLOPS) me treng kan me telje kor mange 
+    aritmetiske operasjoner me gjer per iterasjon. I løkka (eg har ikkje rekna med startverdiar og 
+    dei fyrste operasjonane utanfor løkka) har me 6 FLOPS i Forward Substitutionen (eg har her 
+    rekna divisjon som ein FLOP) medan me i Backward Substitutionen har 2 FLOPS. Det gjer oss 8 FLOPS 
+    per iterasjon og totalt $8n$ FLOPS, kor $n$ er antal iterasjoner.
+
+
+
+
+\section{Programmet}
 \end{document}
