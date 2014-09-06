@@ -36,8 +36,74 @@
   derimot bruker vektorar vil me kunne ha ei "matrise" (tre vektorar) som er mykje større. I tillegg 
   vil radreduksjonen gå fleirfoldige mange gonger kjappare.
 
+
+\section{Omforming av differensiallikning til ei matriselikning}
+  Me er interesserte i å forme om uttrykket for tilnærminga til den andrederiverte. Me startar med å 
+  fjerne brøken. Då får me
+  \begin{equation*}
+    -\frac{v_{i+1} + v_{i-1} - 2v_i}{h^2} = f_i \ \ \ \ \Rightarrow \ \ \
+    -v_{i+1} + v_{i-1} - 2v_i = h^2f_i = \tilde{b}_i, \ \forall \ i \in [1, n].
+  \end{equation*}
+  Me er no interesserte i å skrive dette om til vektorar og ei matrise. Me kan då skrive det som
+  \begin{equation*}
+    \begin{align}
+      &(2, -1)\cdot(v_1, v_2) = \tilde{b}_1, \\
+      &(-1, 2, -1)\cdot(v_1, v_2, v_3) = \tilde{b}_2, \\
+      &(-1, 2, -1)\cdot(v_2, v_3, v_4) = \tilde{b}_3, \\
+      &\dots \\
+      &(-1, 2, -1)\cdot(-v_{i+1}, -v_{i-1}, v_i) = \tilde{b}_i, \\
+      &\dots \\
+      &(-1, 2)\cdot(v_{n-1}, v_{n}) = \tilde{b}_n.
+    \end{align}
+  \end{equation*}
+  Det kjem fram frå dette uttrykket at koeffisientane står i ro. Viss me no setter koeffisientane i ei
+  matrise vil me kun trenge ein vektor $\mathbf{v}$ beståande av alle $v_i, \ \forall \ i \in [1, n]$
+  kor dei vil få dei rette koeffisientane i eit matriseprodukt. Me setter opp matriselikninga.
+  \begin{equation*}
+    A\mathbf{v} = 
+    \begin{pmatrix}
+      2 & -1 & 0 & \dots & \dots & 0 \\
+      -1 & 2 & -1 & 0 & \dots & \dots \\
+      0 & -1 & 2 & -1 & 0 & \dots \\
+      \dots & \dots & \dots & \dots & \dots & \dots \\
+      0 & \dots & \dots & -1 & 2 & -1 \\
+      0 & \dots & \dots & 0 & -1 & 2
+    \end{pmatrix}
+    \begin{pmatrix}
+      v_1 \\
+      v_2 \\
+      v_3 \\
+      \dots \\
+      v_{n-1} \\
+      v_{n}
+    \end{pmatrix} = 
+    \begin{pmatrix}
+      \tilde{b}_1 \\
+      \tilde{b}_2 \\
+      \tilde{b}_3 \\       
+      \dots \\
+      \tilde{b}_{n-1} \\
+      \tilde{b}_n
+    \end{pmatrix} = \mathbf{\tilde{b}}
+  \end{equation*}
+  Eit matriseprodukt av dette uttrykket vil gje oss
+  \begin{equation*}
+    \begin{align}
+      &2v_1 - v_2 = \tilde{b}_1 \\
+      &-v_1 + 2v_2 - v_3 = \tilde{b}_2 \\
+      &\dots \\
+      &-v_{i-1} + 2v_i - v_{i+1} = \tilde{b}_i \\
+      &\dots \\
+      &-v_{n-2} + 2v_{n-1} -v_{n} = \tilde{b}_{n-1} \\
+      &-v_{n-1} + 2v_{n} = \tilde{b}_n.
+    \end{align}
+  \end{equation*}
+  Dette fordi koeffisientane er omringa av nullar som automatisk vil fjerne resten av ledda frå 
+  $\mathbf{v}$.
+
 \section{Algoritmen}
   For å løyse ei matriselikning bruker me radoperasjoner på matrise. Desse vil igjen bli utførde på
-  løysningsvektoren (her kalla $b^~$). 
+  løysningsvektoren (her kalla $\mathbf{\tilde{b}}$). Målet med likninga er å omforme matrisa til ei spesiell øvre-  og nedrematrise. I den fyrste matrisa vil me fjerne alt som er under diagonalen medan me i den andre
+  vil fjerne alt over diagonalen samt omforme diagonalen slik han utelukkande består av einarar.
 
 \end{document}
