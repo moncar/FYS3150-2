@@ -28,15 +28,16 @@ vec TDMA(int n, vec a, vec b, vec c, vec b_func) {
     // Forward substitution
     lambda[1] = b[1];
     v[1] = b_func[1]/lambda[1];
+    gamma[1] = c[1]/lambda[1];
     for (int i = 2; i < n+1; i++) {
-        gamma[i] = a[i]/lambda[i-1];
-        lambda[i] = b[i] - gamma[i]*c[i-1];
+        lambda[i] = b[i] - gamma[i-1]*a[i];
+        gamma[i] = c[i]/lambda[i];
         v[i] = (b_func[i] - a[i]*v[i-1])/lambda[i];
     }
 
     // Backward substitution
     for (int i = n; i > 0; i--) {
-        v[i] -= gamma[i+1]*v[i+1];
+        v[i] -= gamma[i]*v[i+1];
     }
 
     auto finish = high_resolution_clock::now();

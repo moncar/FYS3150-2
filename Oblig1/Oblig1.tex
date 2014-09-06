@@ -101,17 +101,25 @@
   Dette fordi koeffisientane er omringa av nullar som automatisk vil fjerne resten av ledda frå 
   $\mathbf{v}$.
 
+  \subsection{Utleiing av eksakt løysning}
+    For å sjå at den eksakte løysninga er riktig treng me berre å derivere uttrykket to gonger for å
+    sjå at det vert det same som uttrykket til $f$.
+    \begin{equation*}
+      \begin{align}
+        &u(x) = 1 - x - xe^{-10} - e^{-10x}, \\
+        &\frac{du(x)}{dx} = -1 -e^{-10} + 10e^{-10x}, \\
+        &\frac{d^2u(x)}{dx^2} = -100e^{-10x} = f(x).
+      \end{align}
+    \end{equation*}
+
 \section{Algoritmen}
   For å løyse ei matriselikning bruker me radoperasjoner på matrisa. Desse vil igjen bli utførde på
   løysningsvektoren (her kalla $\mathbf{\tilde{b}}$). Målet med likninga er å omforme matrisa til ei 
   spesiell øvre-  og nedrematrise som me kan løyse. 
   
   \subsection{Dekomponering}
-    I den fyrste matrisa vil me fjerne alt som er over 
-    diagonalen slik at ho utelukkande består av einarar på diagonalen og $\gamma_i, \ \forall \ i \in 
-    [2, n]$ på diagonalen under. I den andre vil me ha ei matrise beståande utelukkande av $\lambda_i, \
-    \forall \ i \in [1, n]$ på diagonalen og $c_i, \ \forall \ i \in [1, n-1]$ på diagonalen over. Då 
-    får me
+    I den fyrste matrisa vil me fjerne alle verdiar over diagonalen slik at me står igjen med $\lambda_i$ og $a_i, \ \forall \ i \in [1, n]$. I den andre vil me einarar på diagonalen og $\gamma_i, \ \forall \ i \in [1, n - 1]$ over.
+
     \begin{equation*}
       \begin{align}
         &A =
@@ -125,20 +133,20 @@
         \end{pmatrix} = \\
         &LU =
         \begin{pmatrix}
-          1 & \dots & \dots & \dots & \dots & \dots \\
-          \gamma_2 & 1 & \dots & \dots & \dots & \dots \\
-          \dots & \gamma_2 & 1 & \dots & \dots & \dots \\
+          \lambda_1 & \dots & \dots & \dots & \dots & \dots \\
+          a_2 & \lambda_2 & \dots & \dots & \dots & \dots \\
+          \dots & a_3 & \lambda_3 & \dots & \dots & \dots \\
           \dots & \dots & \dots & \dots & \dots & \dots \\
-          \dots & \dots & \dots & \gamma_{n-1} & 1 & \dots \\
-          \dots & \dots & \dots & \dots & \gamma_n & 1
+          \dots & \dots & \dots & a_{n-1} & \lambda_{n-1} & \dots \\
+          \dots & \dots & \dots & \dots & a_n & \lambda_n 
         \end{pmatrix}
         \begin{pmatrix}
-          \lambda_1 & c_1  & \dots & \dots & \dots & \dots \\
-          \dots & \lambda_2 & c_2 & \dots & \dots & \dots \\
-          \dots & \dots & \lambda_3 & c_3 & \dots & \dots \\
+          1 & \gamma_1  & \dots & \dots & \dots & \dots \\
+          \dots & 1 & \lambda_2 & \dots & \dots & \dots \\
+          \dots & \dots & 1 & \gamma_3 & \dots & \dots \\
           \dots & \dots & \dots & \dots & \dots & \dots \\
-          \dots & \dots & \dots & \dots & \lambda_{n-1} & c_{n_1} \\
-          \dots & \dots & \dots & \dots & \dots & \lambda_n
+          \dots & \dots & \dots & \dots & 1 & \gamma_{n-1} \\
+          \dots & \dots & \dots & \dots & \dots & 1 
         \end{pmatrix}.
       \end{align}
     \end{equation*}
