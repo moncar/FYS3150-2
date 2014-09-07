@@ -158,8 +158,8 @@ int main(int argc, char* argv[]) {
     // Implementing function values
     // Fixing endpoints
     // Adding exact values
-    b_func[1] = h*h*100*exp(-10*x[1]);
     x[1] = 1*h;
+    b_func[1] = h*h*100*exp(-10*x[1]);
     u[1] = 1 - (1 - exp(-10))*x[1] - exp(-10*x[1]);
     for (int i = 2; i < n+1; i++) {
         x[i] = i*h;

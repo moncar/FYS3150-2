@@ -11,6 +11,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{subfig}
+\usepackage{float}
 
 \begin{document}
 \begin{titlepage}
@@ -40,6 +41,7 @@
   stort større matrise enn $1000\times1000$. Dette fordi han ikkje har stort nok minne. Viss me 
   derimot bruker vektorar vil me kunne ha ei "matrise" (tre vektorar) som er mykje større. I tillegg 
   vil radreduksjonen gå fleirfoldige mange gonger kjappare.
+  Alt av programkode ligg på \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig1}.
 
 
 \section{Omforming av differensiallikning til ei matriselikning}
@@ -50,17 +52,15 @@
     -v_{i+1} + v_{i-1} - 2v_i = h^2f_i = \tilde{b}_i, \ \forall \ i \in [1, n].
   \end{equation*}
   Me er no interesserte i å skrive dette om til vektorar og ei matrise. Me kan då skrive det som
-  \begin{equation*}
-    \begin{align}
-      &(2, -1)\cdot(v_1, v_2) = \tilde{b}_1, \\
-      &(-1, 2, -1)\cdot(v_1, v_2, v_3) = \tilde{b}_2, \\
-      &(-1, 2, -1)\cdot(v_2, v_3, v_4) = \tilde{b}_3, \\
-      &\dots \\
-      &(-1, 2, -1)\cdot(-v_{i+1}, -v_{i-1}, v_i) = \tilde{b}_i, \\
-      &\dots \\
-      &(-1, 2)\cdot(v_{n-1}, v_{n}) = \tilde{b}_n.
-    \end{align}
-  \end{equation*}
+  \begin{align*}
+    &(2, -1)\cdot(v_1, v_2) = \tilde{b}_1, \\
+    &(-1, 2, -1)\cdot(v_1, v_2, v_3) = \tilde{b}_2, \\
+    &(-1, 2, -1)\cdot(v_2, v_3, v_4) = \tilde{b}_3, \\
+    &\dots \\
+    &(-1, 2, -1)\cdot(-v_{i+1}, -v_{i-1}, v_i) = \tilde{b}_i, \\
+    &\dots \\
+    &(-1, 2)\cdot(v_{n-1}, v_{n}) = \tilde{b}_n.
+  \end{align*}
   Det kjem fram frå dette uttrykket at koeffisientane står i ro. Viss me no setter koeffisientane i ei
   matrise vil me kun trenge ein vektor $\mathbf{v}$ beståande av alle $v_i, \ \forall \ i \in [1, n]$
   kor dei vil få dei rette koeffisientane i eit matriseprodukt. Me setter opp matriselikninga.
@@ -92,30 +92,26 @@
     \end{pmatrix} = \mathbf{\tilde{b}}
   \end{equation*}
   Eit matriseprodukt av dette uttrykket vil gje oss
-  \begin{equation*}
-    \begin{align}
-      &2v_1 - v_2 = \tilde{b}_1 \\
-      &-v_1 + 2v_2 - v_3 = \tilde{b}_2 \\
-      &\dots \\
-      &-v_{i-1} + 2v_i - v_{i+1} = \tilde{b}_i \\
-      &\dots \\
-      &-v_{n-2} + 2v_{n-1} -v_{n} = \tilde{b}_{n-1} \\
-      &-v_{n-1} + 2v_{n} = \tilde{b}_n.
-    \end{align}
-  \end{equation*}
+  \begin{align*}
+    &2v_1 - v_2 = \tilde{b}_1 \\
+    &-v_1 + 2v_2 - v_3 = \tilde{b}_2 \\
+    &\dots \\
+    &-v_{i-1} + 2v_i - v_{i+1} = \tilde{b}_i \\
+    &\dots \\
+    &-v_{n-2} + 2v_{n-1} -v_{n} = \tilde{b}_{n-1} \\
+    &-v_{n-1} + 2v_{n} = \tilde{b}_n.
+  \end{align*}
   Dette fordi koeffisientane er omringa av nullar som automatisk vil fjerne resten av ledda frå 
   $\mathbf{v}$.
 
   \subsection{Utleiing av eksakt løysning}
     For å sjå at den eksakte løysninga er riktig treng me berre å derivere uttrykket to gonger for å
     sjå at det vert det same som uttrykket til $f$.
-    \begin{equation*}
-      \begin{align}
-        &u(x) = 1 - x - xe^{-10} - e^{-10x}, \\
-        &\frac{du(x)}{dx} = -1 -e^{-10} + 10e^{-10x}, \\
-        &\frac{d^2u(x)}{dx^2} = -100e^{-10x} = f(x).
-      \end{align}
-    \end{equation*}
+    \begin{align*}
+      &u(x) = 1 - x - xe^{-10} - e^{-10x}, \\
+      &\frac{du(x)}{dx} = -1 -e^{-10} + 10e^{-10x}, \\
+      &\frac{d^2u(x)}{dx^2} = -100e^{-10x} = f(x).
+    \end{align*}
 
 \section{Algoritma}
   For å løyse ei matriselikning bruker me radoperasjoner på matrisa. Desse vil igjen bli utførde på
@@ -125,48 +121,44 @@
   \subsection{Dekomponering}
     I den fyrste matrisa vil me fjerne alle verdiar over diagonalen slik at me står igjen med $\lambda_i$ og $a_i, \ \forall \ i \in [1, n]$. I den andre vil me einarar på diagonalen og $\gamma_i, \ \forall \ i \in [1, n - 1]$ over.
 
-    \begin{equation*}
-      \begin{align}
-        &A =
-        \begin{pmatrix}
-          b_1 & c_1 & \dots & \dots & \dots & \dots \\
-          a_2 & b_2 & c_2 & \dots & \dots & \dots \\
-          \dots & a_3 & b_3 & c_3 & \dots & \dots \\
-          \dots & \dots & \dots & \dots & \dots & \dots \\
-          \dots & \dots & \dots & a_{n-1} & b_{n-1} & c_{n-1} \\
-          \dots & \dots & \dots & \dots & a_n & b_n
-        \end{pmatrix} = \\
-        &LU =
-        \begin{pmatrix}
-          \lambda_1 & \dots & \dots & \dots & \dots & \dots \\
-          a_2 & \lambda_2 & \dots & \dots & \dots & \dots \\
-          \dots & a_3 & \lambda_3 & \dots & \dots & \dots \\
-          \dots & \dots & \dots & \dots & \dots & \dots \\
-          \dots & \dots & \dots & a_{n-1} & \lambda_{n-1} & \dots \\
-          \dots & \dots & \dots & \dots & a_n & \lambda_n 
-        \end{pmatrix}
-        \begin{pmatrix}
-          1 & \gamma_1  & \dots & \dots & \dots & \dots \\
-          \dots & 1 & \lambda_2 & \dots & \dots & \dots \\
-          \dots & \dots & 1 & \gamma_3 & \dots & \dots \\
-          \dots & \dots & \dots & \dots & \dots & \dots \\
-          \dots & \dots & \dots & \dots & 1 & \gamma_{n-1} \\
-          \dots & \dots & \dots & \dots & \dots & 1 
-        \end{pmatrix}.
-      \end{align}
-    \end{equation*}
+    \begin{align*}
+      &A =
+      \begin{pmatrix}
+        b_1 & c_1 & \dots & \dots & \dots & \dots \\
+        a_2 & b_2 & c_2 & \dots & \dots & \dots \\
+        \dots & a_3 & b_3 & c_3 & \dots & \dots \\
+        \dots & \dots & \dots & \dots & \dots & \dots \\
+        \dots & \dots & \dots & a_{n-1} & b_{n-1} & c_{n-1} \\
+        \dots & \dots & \dots & \dots & a_n & b_n
+      \end{pmatrix} = \\
+      &LU =
+      \begin{pmatrix}
+        \lambda_1 & \dots & \dots & \dots & \dots & \dots \\
+        a_2 & \lambda_2 & \dots & \dots & \dots & \dots \\
+        \dots & a_3 & \lambda_3 & \dots & \dots & \dots \\
+        \dots & \dots & \dots & \dots & \dots & \dots \\
+        \dots & \dots & \dots & a_{n-1} & \lambda_{n-1} & \dots \\
+        \dots & \dots & \dots & \dots & a_n & \lambda_n 
+      \end{pmatrix}
+      \begin{pmatrix}
+        1 & \gamma_1  & \dots & \dots & \dots & \dots \\
+        \dots & 1 & \lambda_2 & \dots & \dots & \dots \\
+        \dots & \dots & 1 & \gamma_3 & \dots & \dots \\
+        \dots & \dots & \dots & \dots & \dots & \dots \\
+        \dots & \dots & \dots & \dots & 1 & \gamma_{n-1} \\
+        \dots & \dots & \dots & \dots & \dots & 1 
+      \end{pmatrix}.
+    \end{align*}
     Multiplikasjon av matrisene $LU$ vil gje oss $A$. Me bruker dette til å finne eit uttrykk for 
     $\gamma_i, \ \forall \ i \in [1, n-1]$ og $\lambda_i, \ \forall \ i \ \in [1, n]$. Det vil gje oss
-    \begin{equation*}
-      \begin{align}
-        &\lambda_1 = b_1, \qquad \gamma_1 = \frac{c_1}{\lambda_1}, \\
-        &\lambda_2 = b_2 - a_2\gamma_1, \qquad \gamma_2 = \frac{c_2}{\lambda_2} \\ 
-        &\dots \\
-        &\lambda_i = b_i - a_i\gamma_{i-1}, \qquad \gamma_i = \frac{c_i}{\lambda_{i}}, \\
-        &\dots \\
-        &\lambda_n = b_n - a_n\gamma_{n-1}, \qquad \gamma_n = \frac{c_n}{\lambda_n}.
-      \end{align}
-    \end{equation*}
+    \begin{align*}
+      &\lambda_1 = b_1, \qquad \gamma_1 = \frac{c_1}{\lambda_1}, \\
+      &\lambda_2 = b_2 - a_2\gamma_1, \qquad \gamma_2 = \frac{c_2}{\lambda_2} \\ 
+      &\dots \\
+      &\lambda_i = b_i - a_i\gamma_{i-1}, \qquad \gamma_i = \frac{c_i}{\lambda_{i}}, \\
+      &\dots \\
+      &\lambda_n = b_n - a_n\gamma_{n-1}, \qquad \gamma_n = \frac{c_n}{\lambda_n}.
+    \end{align*}
 
   \subsection{Forward Substitution}
     No gjenstår det å løyse likningane $L\mathbf{y} = \mathbf{\tilde{b}}$ og $U\mathbf{v} =
@@ -174,35 +166,31 @@
     = \mathbf{\tilde{b}}$ og $U\mathbf{v} = \mathbf{v}$. Dette for å spare plass i minnet, men det 
     kjem me til. Likninga $L\mathbf{y} = \mathbf{\tilde{b}}$ vil gje oss likningssetta under.
     
-    \begin{equation*}
-      \begin{align}
-        \lambda_1y_1 = \tilde{b}_1 \qquad &\Rightarrow \qquad y_1 = \frac{\tilde{b}_1}{\lambda_1}, \\
-        a_2y_1 + \lambda_2y_2 = \tilde{b}_2 \qquad &\Rightarrow \qquad y_2 = \frac{\tilde{b}_2 - a_2
-        y_1}{\lambda_2}, \\
-        &\dots \\
-        a_iy_{i-1} + \lambda_iy_i = \tilde{b}_i \qquad &\Rightarrow \qquad y_i = \frac{\tilde{b}_i
-        - a_iy_{i-1}}{\lambda_i}, \\
-        &\dots \\
-        a_ny_{n-1} + \lambda_ny_n = \tilde{b}_n \qquad &\Rightarrow \qquad y_n = \frac{\tilde{b}_n
-        - a_ny_{n-1}}{\lambda_n}.
-      \end{align}
-    \end{equation*}
+    \begin{align*}
+      \lambda_1y_1 = \tilde{b}_1 \qquad &\Rightarrow \qquad y_1 = \frac{\tilde{b}_1}{\lambda_1}, \\
+      a_2y_1 + \lambda_2y_2 = \tilde{b}_2 \qquad &\Rightarrow \qquad y_2 = \frac{\tilde{b}_2 - a_2
+      y_1}{\lambda_2}, \\
+      &\dots \\
+      a_iy_{i-1} + \lambda_iy_i = \tilde{b}_i \qquad &\Rightarrow \qquad y_i = \frac{\tilde{b}_i
+      - a_iy_{i-1}}{\lambda_i}, \\
+      &\dots \\
+      a_ny_{n-1} + \lambda_ny_n = \tilde{b}_n \qquad &\Rightarrow \qquad y_n = \frac{\tilde{b}_n
+      - a_ny_{n-1}}{\lambda_n}.
+    \end{align*}
 
   \subsection{Backward Substitution}
     Til slutt bruker me backward substitution til å finne den endelege løysninga. Me må då løyse
     likninga $U\mathbf{v} = \mathbf{y}$. Denne likninga må me løyse baklengs. Me får
 
-    \begin{equation*}
-      \begin{align}
-        v_n &= y_n, \\
-        v_{n-1} + \gamma_{n-1}v_n = y_{n-1} \qquad &\Rightarrow \qquad v_{n-1} = y_{n-1} - 
-        \gamma_{n-1}v_n, \\
-        &\dots \\
-        v_i + \gamma_iv_{n+1} = y_i \qquad &\Rightarrow \qquad v_i = y_i - \gamma_iv_{i+1}, \\
-        &\dots \\
-        v_1 + \gamma_1v_2 = y_1 \qquad &\Rightarrow \qquad v_1 = y_1 - \gamma_1v_2.
-      \end{align}
-    \end{equation*}
+    \begin{align*}
+      v_n &= y_n, \\
+      v_{n-1} + \gamma_{n-1}v_n = y_{n-1} \qquad &\Rightarrow \qquad v_{n-1} = y_{n-1} - 
+      \gamma_{n-1}v_n, \\
+      &\dots \\
+      v_i + \gamma_iv_{n+1} = y_i \qquad &\Rightarrow \qquad v_i = y_i - \gamma_iv_{i+1}, \\
+      &\dots \\
+      v_1 + \gamma_1v_2 = y_1 \qquad &\Rightarrow \qquad v_1 = y_1 - \gamma_1v_2.
+    \end{align*}
 
   \subsection{Antal FLOPS}
     For å finne ut kor mange flyttalsoperasjoner (FLOPS) me treng kan me telje kor mange 
@@ -213,7 +201,7 @@
 
 
   \subsection{Køyretid}
-    Idet ein køyrer programmet $\mathfs{Plotter.py}$ vil me få ut køyretidene
+    Idet ein køyrer programmet \texttt{Plotter.py} vil me få ut køyretidene
     \verbatiminput{utskrift.txt} \
     Desse køyretidene vil variere veldig med dagsformen til pc'en som køyrer programmet samt
     pc'en i seg sjølv. Hovudpoenget er å sjå skjelnaden på dei to algoritmane.
@@ -221,12 +209,12 @@
 \section{Programma}
   Alle algoritmar og tung utrekning vert gjennomført i C++. Programmet skriv ut resultata til fil,
   kor desse vert henta av eit program i Python som plottar resultata. Sjølve køyringa av programmet 
-  vert styrt i Python. Ein treng difor kun å køyre programmet $\mathfs{Plotter.py}$ for å få ut all
+  vert styrt i Python. Ein treng difor kun å køyre programmet \texttt{Plotter.py} for å få ut all
   informasjon. 
 
-  \subsection{$\mathfs{Plotter.py}$}
+  \subsection{\texttt{Plotter.py}}
    
-  \subsection{$\mathfs{Project1.cpp}$}
+  \subsection{\texttt{Project1.cpp}}
 
     
 \section{Resultat}
@@ -235,25 +223,29 @@
 
   \subsection{Plott over løysningar}
 
-    \begin{center}
+    \begin{figure}[H]
+      \centering
       \includegraphics[width=200px]{LU10.png} \\
       \caption{LU for $n = 10$}
-    \end{center}
-    \begin{center}
+    \end{figure}
+    \begin{figure}
+      \centering
       \includegraphics[width=200px]{TDMA10.png} \\
       \caption{TDMA for $n = 10$}
-    \end{center}
+    \end{figure}
 
     Me kan sjå at løysninga for $n = 10$ er langt i frå eksakt foreløpig.
 
-    \begin{center}
+    \begin{figure}
+      \centering
       \includegraphics[width=200px]{LU100.png} \\
       \caption{LU for $n = 100$}
-    \end{center}
-    \begin{center}
+    \end{figure}
+    \begin{figure}
+      \centering
       \includegraphics[width=200px]{TDMA100.png} \\
       \caption{TDMA for $n = 100$}
-    \end{center}
+    \end{figure}
 
     Dei resterande plotta vil bli heilt like då den numeriske løysninga ligg heilt på den 
     eksakte løysninga.
@@ -262,10 +254,11 @@
     Grafen til feilestimatet gjer oss ein tilnærma lineær nedgang. For $n = 1000000$ derimot skjer 
     det noko underleg. Plutseleg stig feilen igjen. 
 
-    \begin{center}
+    \begin{figure}
+      \centering
       \includegraphics[width=200px]{ERROR.png} \\
       \caption{Feilestimat}
-    \end{center}
+    \end{figure}
 
     Dette skjer fordi numerisk avrunding slår inn. PC'en klarer berre å håndtere eit visst antal
     signifikante tal. Når talet overskrid denne grensa vil numerisk avrunding slå inn og feilen vil
