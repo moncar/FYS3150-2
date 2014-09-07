@@ -5,7 +5,12 @@
 \usepackage[norsk]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{subfig}
 
 \begin{document}
 \begin{titlepage}
@@ -207,7 +212,64 @@
     per iterasjon og totalt $8n$ FLOPS, kor $n$ er antal iterasjoner.
 
 
+  \subsection{Køyretid}
+    Idet ein køyrer programmet $\mathfs{Plotter.py}$ vil me få ut køyretidene
+    \verbatiminput{utskrift.txt} \
+    Desse køyretidene vil variere veldig med dagsformen til pc'en som køyrer programmet samt
+    pc'en i seg sjølv. Hovudpoenget er å sjå skjelnaden på dei to algoritmane.
+
+\section{Programma}
+  Alle algoritmar og tung utrekning vert gjennomført i C++. Programmet skriv ut resultata til fil,
+  kor desse vert henta av eit program i Python som plottar resultata. Sjølve køyringa av programmet 
+  vert styrt i Python. Ein treng difor kun å køyre programmet $\mathfs{Plotter.py}$ for å få ut all
+  informasjon. 
+
+  \subsection{$\mathfs{Plotter.py}$}
+   
+  \subsection{$\mathfs{Project1.cpp}$}
+
+    
+\section{Resultat}
+  Metoden som vert nytta til å løyse likningssettet er veldig sterk. Allerede for $n = 100$ vil 
+  den numeriske løysninga ligge heilt på den eksakte løysninga. 
+
+  \subsection{Plott over løysningar}
+
+    \begin{center}
+      \includegraphics[width=200px]{LU10.png} \\
+      \caption{LU for $n = 10$}
+    \end{center}
+    \begin{center}
+      \includegraphics[width=200px]{TDMA10.png} \\
+      \caption{TDMA for $n = 10$}
+    \end{center}
+
+    Me kan sjå at løysninga for $n = 10$ er langt i frå eksakt foreløpig.
+
+    \begin{center}
+      \includegraphics[width=200px]{LU100.png} \\
+      \caption{LU for $n = 100$}
+    \end{center}
+    \begin{center}
+      \includegraphics[width=200px]{TDMA100.png} \\
+      \caption{TDMA for $n = 100$}
+    \end{center}
+
+    Dei resterande plotta vil bli heilt like då den numeriske løysninga ligg heilt på den 
+    eksakte løysninga.
+
+  \subsection{Feilestimat}
+    Grafen til feilestimatet gjer oss ein tilnærma lineær nedgang. For $n = 1000000$ derimot skjer 
+    det noko underleg. Plutseleg stig feilen igjen. 
+
+    \begin{center}
+      \includegraphics[width=200px]{ERROR.png} \\
+      \caption{Feilestimat}
+    \end{center}
+
+    Dette skjer fordi numerisk avrunding slår inn. PC'en klarer berre å håndtere eit visst antal
+    signifikante tal. Når talet overskrid denne grensa vil numerisk avrunding slå inn og feilen vil
+    stige.
 
 
-\section{Programmet}
 \end{document}

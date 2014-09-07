@@ -77,6 +77,11 @@ vec LU(int n, vec a, vec b, vec c, vec b_func) {
     // Impelementing LU
     lu(L, U, P, A);
 
+    // Armadillo solve()-method is a bit too smart.
+    // I have therefore implemented the solutions 
+    // to a LU-decomposed equation by hand to make sure 
+    // we get a properly "slow"-method.
+
     // Forward sweep
     for (int i = 1; i < n+1; i++) {
         y[i] = b_func[i];
