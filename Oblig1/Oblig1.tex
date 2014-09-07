@@ -12,6 +12,8 @@
 \usepackage{subcaption}
 \usepackage{subfig}
 \usepackage{float}
+\usepackage{program}
+
 
 \begin{document}
 \begin{titlepage}
@@ -201,10 +203,12 @@
 
 
   \subsection{Køyretid}
-    Idet ein køyrer programmet \texttt{Plotter.py} vil me få ut køyretidene
+    Idet ein køyrer programmet \texttt{Plotter.py} vil me få ut køyretidene (tida er kun tatt frå
+    for-løkka i programmet).
     \verbatiminput{utskrift.txt} \
     Desse køyretidene vil variere veldig med dagsformen til pc'en som køyrer programmet samt
     pc'en i seg sjølv. Hovudpoenget er å sjå skjelnaden på dei to algoritmane.
+    Køyretiden er gjeve ved $\mathcal{O}(8n)$.
 
 \section{Programma}
   Alle algoritmar og tung utrekning vert gjennomført i C++. Programmet skriv ut resultata til fil,
@@ -213,8 +217,51 @@
   informasjon. 
 
   \subsection{\texttt{Plotter.py}}
+    Python-programmet står for sjølve gjennomføringa av heile prosjektet. Eit kall på 
+    programmet køyrer C++ programmet for forskjellige verdiar av $n$ samt dei forskjellige
+    metodane. C++ skriv ut resultata til filer som Python tar imot. Python les verdiana og lagrar dei
+    i arrays i klassa Plotter. Desse vert deretter plotta.
    
   \subsection{\texttt{Project1.cpp}}
+    C++-programmet tek imot $n$-verdiar og kva løysningsmetode som skal nyttast frå kommandolinja.
+    Algoritmane vert implementerte i eigne funksjonar.
+
+    \begin{program}
+      \COMMENT{Startverdier for TDMA-algoritma}
+      \lambda_1 = b_1
+      v_1 = \frac{\tilde{b}_1}{\lambda_1}
+      \gamma_1 = \frac{c_1}{\lambda_1}
+      \COMMENT{Forward sweep}
+      \FOR i = 2 \TO i < n+1 \STEP 1
+        \lambda_i = b_i - \gamma_ia_i
+        \gamma_i = \frac{c_i}{\lambda_i}
+        v_i = \frac{\tilde{b}_i - a_iv_{i-1}}{\lambda_i}
+        \OD
+      \COMMENT{Backward sweep}
+      \FOR i = n \TO i > 0 \STEP -1
+      v_i = \gamma_iv_{i+1} - v_i
+      \OD
+    \end{program}
+    \begin{program}
+      \COMMENT{Startverdiar for LU-algoritma frå Armadillo-biblioteket}
+      lu(L, U, P, A) 
+      \COMMENT{Forward sweep}
+      \FOR i = 1 \TO i < n+1 \STEP 1
+      y_i = \tilde{b}_i
+      \FOR j = 1 \TO j < i \STEP 1
+        y_i = L_{i-1, j-1}y_j - y_i
+        \OD
+      y_i = \frac{L_{i-1, i-1}}{y_i}
+      \OD
+      \COMMENT{Backward sweep}
+      \FOR i = n \TO i > 0 \STEP -1
+        v_i = y_i
+        \FOR j = i+1 \TO j < n+1 \STEP 1
+          v_i = U_{i-1, j-1}v_j - v_i
+          \OD
+        v_i = \frac{U_{i-1, i-1}}{v_i}
+        \OD
+    \end{program}
 
     
 \section{Resultat}
@@ -225,12 +272,12 @@
 
     \begin{figure}[H]
       \centering
-      \includegraphics[width=200px]{LU10.png} \\
+      \includegraphics[width=300px]{LU10.png} \\
       \caption{LU for $n = 10$}
     \end{figure}
     \begin{figure}
       \centering
-      \includegraphics[width=200px]{TDMA10.png} \\
+      \includegraphics[width=300px]{TDMA10.png} \\
       \caption{TDMA for $n = 10$}
     \end{figure}
 
@@ -238,12 +285,12 @@
 
     \begin{figure}
       \centering
-      \includegraphics[width=200px]{LU100.png} \\
+      \includegraphics[width=300px]{LU100.png} \\
       \caption{LU for $n = 100$}
     \end{figure}
     \begin{figure}
       \centering
-      \includegraphics[width=200px]{TDMA100.png} \\
+      \includegraphics[width=300px]{TDMA100.png} \\
       \caption{TDMA for $n = 100$}
     \end{figure}
 
@@ -256,7 +303,7 @@
 
     \begin{figure}
       \centering
-      \includegraphics[width=200px]{ERROR.png} \\
+      \includegraphics[width=300px]{ERROR.png} \\
       \caption{Feilestimat}
     \end{figure}
 
@@ -264,5 +311,16 @@
     signifikante tal. Når talet overskrid denne grensa vil numerisk avrunding slå inn og feilen vil
     stige.
 
+    \begin{center}
+      \begin{tabular}{|l||r|}
+        \hline
+        Antal iterasjoner & Feil \\
+        \hline
+        \input{utskrift2.txt}
+        \hline
+      \end{tabular}
+    \end{center}
+
+    Det siste leddet viser korleis feilen vil stige etterkvart som me auker antal iterasjoner.
 
 \end{document}
