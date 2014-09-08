@@ -29,6 +29,12 @@
 \end{titlepage}
 \maketitle
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=300px]{quantum_vacuum_virtual_plasma.png}
+  \caption{xkcd.com/1404/}
+\end{figure}
+
 \newpage
   \tableofcontents
 \newpage
@@ -41,7 +47,7 @@
   likningssettet. Denne matriselikninga vil gje oss ei tridiagonalmatrise $A$ som stort sett består 
   av  nullar. Hensikta er då å sjå at me kan 'kaste' alle nullane og kun behalde elementa frå 
   diagonalane.
-  Me vil representere desse som vektorar for å bruke minst mogleg plass. Dette vil og gjere det mogleg  for oss å kunne utføre fleire iterasjoner. Ein vanleg PC vil ikkje kunne klare å representere ein 
+  Me vil representere desse som vektorar for å bruke minst mogleg plass. Dette vil og gjere det mogleg  for oss å kunne utføre fleire iterasjoner. Ein vanleg PC vil ikkje kunne klare å representere ei 
   stort større matrise enn $1000\times1000$. Dette fordi han ikkje har stort nok minne. Viss me 
   derimot bruker vektorar vil me kunne ha ei 'matrise' (tre vektorar) som er mykje større. I tillegg 
   vil radreduksjonen gå fleirfoldige mange gonger kjappare.
@@ -228,7 +234,7 @@
   \subsection{\texttt{Plotter.py}}
     Python-programmet står for sjølve gjennomføringa av heile prosjektet. Eit kall på 
     programmet køyrer C++ programmet for forskjellige verdiar av $n$ samt dei forskjellige
-    metodane. C++ skriv ut resultata til filer som Python tar imot. Python les verdiana og lagrar dei
+    metodane. C++ skriv ut resultata til filer som Python tar imot. Python les verdiane og lagrar dei
     i arrays i klassa Plotter. Desse vert deretter plotta.
    
   \subsection{\texttt{Project1.cpp}}
@@ -242,7 +248,7 @@
       \gamma_1 = \frac{c_1}{\lambda_1}
       \COMMENT{Forward sweep}
       \FOR i = 2 \TO i < n+1 \STEP 1
-        \lambda_i = b_i - \gamma_ia_i
+        \lambda_i = b_i - \gamma_{i-1}a_i
         \gamma_i = \frac{c_i}{\lambda_i}
         v_i = \frac{\tilde{b}_i - a_iv_{i-1}}{\lambda_i}
         \OD
@@ -287,7 +293,7 @@
       \includegraphics[width=300px]{LU10.png} \\
       \caption{LU for $n = 10$}
     \end{figure}
-    \begin{figure}
+    \begin{figure}[H]
       \centering
       \includegraphics[width=300px]{TDMA10.png} \\
       \caption{TDMA for $n = 10$}
@@ -295,12 +301,12 @@
 
     Me kan sjå at løysninga for $n = 10$ er langt i frå eksakt foreløpig.
 
-    \begin{figure}
+    \begin{figure}[H]
       \centering
       \includegraphics[width=300px]{LU100.png} \\
       \caption{LU for $n = 100$}
     \end{figure}
-    \begin{figure}
+    \begin{figure}[H]
       \centering
       \includegraphics[width=300px]{TDMA100.png} \\
       \caption{TDMA for $n = 100$}
@@ -309,11 +315,12 @@
     Dei resterande plotta vil bli heilt like då den numeriske løysninga ligg heilt på den 
     eksakte løysninga.
 
+\newpage
   \subsection{Feilestimat}
-    Grafen til feilestimatet gjer oss ein tilnærma lineær nedgang. For $n = 1000000$ derimot skjer 
+    Grafen til feilestimatet gjer oss ei tilnærma lineær nedgang. For $n = 1000000$ derimot skjer 
     det noko underleg. Plutseleg stig feilen igjen. 
 
-    \begin{figure}
+    \begin{figure}[H]
       \centering
       \includegraphics[width=300px]{ERROR.png} \\
       \caption{Feilestimat}
