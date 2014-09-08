@@ -49,6 +49,8 @@ class Plotter:
             u[i] = float(splitted[2])
             i += 1
 
+        solutions.close()
+
         return errorLocation, epsilon
 
 

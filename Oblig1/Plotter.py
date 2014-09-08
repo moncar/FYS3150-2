@@ -49,6 +49,9 @@ class Plotter:
             u[i] = float(splitted[2])
             i += 1
 
+        fileVals.close()
+        fileErrors.close()
+
         return errorLocation, epsilon
 
 
