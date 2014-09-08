@@ -35,24 +35,26 @@
 
 \section{Introduksjon}
   I dette prosjektet har me tatt for oss ein ein-dimensjonal Poisson likning med Dirichlet randpunkt.
-  Me vil simulere ein numerisk løysning på ein andre-ordens differensiallikning.
+  Me vil simulere ei numerisk løysning på ei andre-ordens differensiallikning.
   Måten me vil gjer dette på er ved å omforme settet med lineære likningar til ei matriselikning. Då 
-  kan me bruke radoperasjoner til å lage ein algoritme som gjer det mogleg for oss å løyse 
-  likningssettet. Denne matriselikninga vil gje oss ei tridiagonalmatrise $A$ som stort sett består av  nullar. Hensikta er då å sjå at me kan "kaste" alle nullane og kun behalde elementa frå diagonalane.
+  kan me bruke radoperasjoner til å lage ei algoritme som gjer det mogleg for oss å løyse 
+  likningssettet. Denne matriselikninga vil gje oss ei tridiagonalmatrise $A$ som stort sett består 
+  av  nullar. Hensikta er då å sjå at me kan 'kaste' alle nullane og kun behalde elementa frå 
+  diagonalane.
   Me vil representere desse som vektorar for å bruke minst mogleg plass. Dette vil og gjere det mogleg  for oss å kunne utføre fleire iterasjoner. Ein vanleg PC vil ikkje kunne klare å representere ein 
   stort større matrise enn $1000\times1000$. Dette fordi han ikkje har stort nok minne. Viss me 
-  derimot bruker vektorar vil me kunne ha ei "matrise" (tre vektorar) som er mykje større. I tillegg 
+  derimot bruker vektorar vil me kunne ha ei 'matrise' (tre vektorar) som er mykje større. I tillegg 
   vil radreduksjonen gå fleirfoldige mange gonger kjappare.
-  Alt av programkode ligg på \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig1}.
+  Alt av programkode ligg på \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig1}
 
 
 \section{Omforming av differensiallikning til ei matriselikning}
   Me er interesserte i å forme om uttrykket for tilnærminga til den andrederiverte. Me startar med å 
   fjerne brøken. Då får me
-  \begin{equation*}
-    -\frac{v_{i+1} + v_{i-1} - 2v_i}{h^2} = f_i \ \ \ \ \Rightarrow \ \ \
-    -v_{i+1} + v_{i-1} - 2v_i = h^2f_i = \tilde{b}_i, \ \forall \ i \in [1, n].
-  \end{equation*}
+  \begin{align*}
+    &-\frac{v_{i+1} + v_{i-1} - 2v_i}{h^2} = f_i \\ 
+    &\Rightarrow \ \ \ -v_{i+1} + v_{i-1} - 2v_i = h^2f_i = \tilde{b}_i, \ \forall \ i \in [1, n].
+  \end{align*}
   Me er no interesserte i å skrive dette om til vektorar og ei matrise. Me kan då skrive det som
   \begin{align*}
     &(2, -1)\cdot(v_1, v_2) = \tilde{b}_1, \\
@@ -115,13 +117,17 @@
       &\frac{d^2u(x)}{dx^2} = -100e^{-10x} = f(x).
     \end{align*}
 
+\newpage
+
 \section{Algoritma}
   For å løyse ei matriselikning bruker me radoperasjoner på matrisa. Desse vil igjen bli utførde på
   løysningsvektoren (her kalla $\mathbf{\tilde{b}}$). Målet med likninga er å omforme matrisa til ei 
   spesiell øvre-  og nedrematrise som me kan løyse. 
   
   \subsection{Dekomponering}
-    I den fyrste matrisa vil me fjerne alle verdiar over diagonalen slik at me står igjen med $\lambda_i$ og $a_i, \ \forall \ i \in [1, n]$. I den andre vil me einarar på diagonalen og $\gamma_i, \ \forall \ i \in [1, n - 1]$ over.
+    I den fyrste matrisa vil me fjerne alle verdiar over diagonalen slik at me står igjen med 
+    $\lambda_i$ og $a_i, \ \forall \ i \in [1, n]$. I den andre vil me kun ha einarar på 
+    diagonalen og $\gamma_i, \ \forall \ i \in [1, n - 1]$ over.
 
     \begin{align*}
       &A =
@@ -132,8 +138,8 @@
         \dots & \dots & \dots & \dots & \dots & \dots \\
         \dots & \dots & \dots & a_{n-1} & b_{n-1} & c_{n-1} \\
         \dots & \dots & \dots & \dots & a_n & b_n
-      \end{pmatrix} = \\
-      &LU =
+      \end{pmatrix} = LU\\
+      &=
       \begin{pmatrix}
         \lambda_1 & \dots & \dots & \dots & \dots & \dots \\
         a_2 & \lambda_2 & \dots & \dots & \dots & \dots \\
@@ -207,8 +213,11 @@
     for-løkka i programmet).
     \verbatiminput{utskrift.txt} \
     Desse køyretidene vil variere veldig med dagsformen til pc'en som køyrer programmet samt
-    pc'en i seg sjølv. Hovudpoenget er å sjå skjelnaden på dei to algoritmane.
+    hardwaren pc'en i seg sjølv. Hovudpoenget er å sjå skjelnaden på dei to algoritmane.
     Køyretiden er gjeve ved $\mathcal{O}(8n)$.
+
+
+\newpage
 
 \section{Programma}
   Alle algoritmar og tung utrekning vert gjennomført i C++. Programmet skriv ut resultata til fil,
@@ -264,6 +273,9 @@
     \end{program}
 
     
+
+\newpage
+
 \section{Resultat}
   Metoden som vert nytta til å løyse likningssettet er veldig sterk. Allerede for $n = 100$ vil 
   den numeriske løysninga ligge heilt på den eksakte løysninga. 

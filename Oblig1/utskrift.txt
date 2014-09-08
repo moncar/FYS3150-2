@@ -1,0 +1,9 @@
+Duration of Gaussian Elimination with n = 10: 107000ns
+Duration of Gaussian Elimination with n = 100: 1146000ns
+Duration of Gaussian Elimination with n = 1000: 332022000ns
+Duration of TDMA with n = 10: 2000ns
+Duration of TDMA with n = 100: 7000ns
+Duration of TDMA with n = 1000: 60000ns
+Duration of TDMA with n = 10000: 923000ns
+Duration of TDMA with n = 100000: 6917000ns
+Duration of TDMA with n = 1000000: 59471000ns

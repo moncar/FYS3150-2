@@ -1,0 +1,16 @@
+\select@language {norsk}
+\contentsline {section}{\numberline {1}Introduksjon}{3}
+\contentsline {section}{\numberline {2}Omforming av differensiallikning til ei matriselikning}{3}
+\contentsline {subsection}{\numberline {2.1}Utleiing av eksakt l\IeC {\o }ysning}{4}
+\contentsline {section}{\numberline {3}Algoritma}{5}
+\contentsline {subsection}{\numberline {3.1}Dekomponering}{5}
+\contentsline {subsection}{\numberline {3.2}Forward Substitution}{5}
+\contentsline {subsection}{\numberline {3.3}Backward Substitution}{6}
+\contentsline {subsection}{\numberline {3.4}Antal FLOPS}{6}
+\contentsline {subsection}{\numberline {3.5}K\IeC {\o }yretid}{6}
+\contentsline {section}{\numberline {4}Programma}{8}
+\contentsline {subsection}{\numberline {4.1}\texttt {Plotter.py}}{8}
+\contentsline {subsection}{\numberline {4.2}\texttt {Project1.cpp}}{8}
+\contentsline {section}{\numberline {5}Resultat}{10}
+\contentsline {subsection}{\numberline {5.1}Plott over l\IeC {\o }ysningar}{10}
+\contentsline {subsection}{\numberline {5.2}Feilestimat}{10}
