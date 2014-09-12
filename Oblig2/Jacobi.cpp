@@ -22,7 +22,7 @@ class Jacobi {
             double max = 0.0;
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
-                    if (fabs(A(i, j) > max)) {
+                    if (fabs(A(i, j)) > max) {
                         max = fabs(A(i, j));
                         *l = i;
                         *k = j;
@@ -75,7 +75,7 @@ class Jacobi {
             }
         } 
 
-        void runJacobi(mat A, mat& R, int n) {
+        void runJacobi(mat& A, mat& R, int n) {
             constructEigenMatrix(R, n);
             int k, l;
             double max_offdiag = maxoffdiag(A, &k, &l, n);
@@ -91,17 +91,35 @@ class Jacobi {
         }
 };
 
+/*
+ * Figure out a smarter test.
+ */
 TEST(Mattematt) {
-    int n = 3;
-    mat A;
-    A << 2 << 1 << 0 << endr
-      << 1 << 2 << 1 << endr
-      << 0 << 1 << 2 << endr;
-    mat R = zeros(3, 3);
+    int n = 5;
+    mat A, B;
+
+    A << 2 << -1 << 0 << 0 << 0 << endr
+      << -1 << 2 << -1 << 0 << 0 << endr
+      << 0<< -1 << 2 << -1 << 0 << endr
+      << 0 << 0 << -1 << 2 << -1 << endr
+      << 0 << 0 << 0 << -1 << 2 << endr;
+
+    B = A;
+    mat R = zeros(n, n);
     Jacobi jocabi;
     jocabi.runJacobi(A, R, n);
+    vec eigval;
+    mat eigvec;
+    eig_sym(eigval, eigvec, B);
+
+    // R contains the eigenvectors while the eigenvalues are along the diagonal of A.
+    vec eigvalA = zeros<vec>(n);
+    for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+    cout << eigvalA << endl;
+    cout << eigval << endl;
     cout << R << endl;
-    CHECK(1 == 1);
+    cout << eigvec << endl;
+    CHECK(true);
 }
 
 int main() {
