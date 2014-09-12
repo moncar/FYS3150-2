@@ -117,7 +117,7 @@ SUITE(TestJacobi) {
 
         CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
 
-        CHECK_CLOSE(norm(eigval, n), norm(eigvalA, n), eps);
+        CHECK_CLOSE(norm(eigval, 2), norm(eigvalA, 2), eps);
     }
 
     TEST(Schrodinger) {
@@ -136,9 +136,9 @@ SUITE(TestJacobi) {
         e = zeros<vec>(n+2);
         V = zeros<vec>(n+2);
         e.fill(-1.0/(h*h));
-        A = zeros(n, n);
+        A = zeros(n+2, n+2);
 
-        for (int i = 0; i < n+1; i++) {
+        for (int i = 1; i < n+1; i++) {
             rho = rho_min + i*h;
             V[i] = rho*rho;
             d[i] = (2.0/(h*h)) - V[i];
@@ -147,28 +147,33 @@ SUITE(TestJacobi) {
         A(0, 0) = d[0];
         A(0, 1) = e[0];
 
-        for (int i = 1; i < n-1; i++) {
+        for (int i = 1; i < n+1; i++) {
             A(i, i-1) = e[i-1];
             A(i, i) = d[i];
             A(i, i+1) = e[i];
         }
 
-        A(n-1, n-2) = e[n];
-        A(n-1, n-1) = d[n];
+        A(n+1, n) = e[n+1];
+        A(n+1, n+1) = d[n+1];
 
         B = A;
-        R = zeros(n, n);
+        R = zeros(n+2, n+2);
         Jacobi jacobi;
-        jacobi.runJacobi(A, R, n);
+        jacobi.runJacobi(A, R, n+2);
         vec eigval;
         mat eigvec;
         eig_sym(eigval, eigvec, B);
         vec eigvalA = zeros<vec>(n);
-        for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+        for (int i = 0; i < n+2; i++) eigvalA[i] = A(i, i);
+        
+        cout << eigvalA << endl;
+        cout << eigval << endl;
+        cout << R << endl;
+        cout << eigvec << endl;
 
         CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
 
-        CHECK_CLOSE(norm(eigval, n), norm(eigvalA, n), eps);
+        CHECK_CLOSE(norm(eigval, 2), norm(eigvalA, 2), eps);
     }
 }
 
