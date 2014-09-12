@@ -79,7 +79,7 @@ class Jacobi {
             constructEigenMatrix(R, n);
             int k, l;
             double max_offdiag = maxoffdiag(A, &k, &l, n);
-            double eps = 1.0e-8;
+            double eps = 1.0e-12;
             int iterations = 0;
             double max_number_iterations = (double) n * (double) n * (double) n; 
             while (fabs(max_offdiag) > eps && (double) iterations < max_number_iterations) {
@@ -91,37 +91,88 @@ class Jacobi {
         }
 };
 
-/*
- * Figure out a smarter test.
- */
-TEST(Mattematt) {
-    int n = 5;
-    mat A, B;
+SUITE(TestJacobi) {
 
-    A << 2 << -1 << 0 << 0 << 0 << endr
-      << -1 << 2 << -1 << 0 << 0 << endr
-      << 0<< -1 << 2 << -1 << 0 << endr
-      << 0 << 0 << -1 << 2 << -1 << endr
-      << 0 << 0 << 0 << -1 << 2 << endr;
+    TEST(TestEigen) {
 
-    B = A;
-    mat R = zeros(n, n);
-    Jacobi jocabi;
-    jocabi.runJacobi(A, R, n);
-    vec eigval;
-    mat eigvec;
-    eig_sym(eigval, eigvec, B);
+        int n = 5;
+        double eps = 1.0e-12;
+        mat A, B;
 
-    // R contains the eigenvectors while the eigenvalues are along the diagonal of A.
-    vec eigvalA = zeros<vec>(n);
-    for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
-    cout << eigvalA << endl;
-    cout << eigval << endl;
-    cout << R << endl;
-    cout << eigvec << endl;
-    CHECK(true);
+        A << 2 << -1 << 0 << 0 << 0 << endr
+          << -1 << 2 << -1 << 0 << 0 << endr
+          << 0<< -1 << 2 << -1 << 0 << endr
+          << 0 << 0 << -1 << 2 << -1 << endr
+          << 0 << 0 << 0 << -1 << 2 << endr;
+
+        B = A;
+        mat R = zeros(n, n);
+        Jacobi jocabi;
+        jocabi.runJacobi(A, R, n);
+        vec eigval;
+        mat eigvec;
+        eig_sym(eigval, eigvec, B);
+        vec eigvalA = zeros<vec>(n);
+        for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+
+        CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
+
+        CHECK_CLOSE(norm(eigval, n), norm(eigvalA, n), eps);
+    }
+
+    TEST(Schrodinger) {
+
+        int n = 10;
+        double eps = 1.0e-8;
+        mat A, B, R;
+        double rho = 0.0;
+        double rho_min = 0.0;
+
+        // Try different values
+        double rho_max = 10.0;
+        double h = (rho_max - rho_min)/((double) n);
+        vec d, e, V;
+        d = zeros<vec>(n+2);
+        e = zeros<vec>(n+2);
+        V = zeros<vec>(n+2);
+        e.fill(-1.0/(h*h));
+        A = zeros(n, n);
+
+        for (int i = 0; i < n+1; i++) {
+            rho = rho_min + i*h;
+            V[i] = rho*rho;
+            d[i] = (2.0/(h*h)) - V[i];
+        }
+
+        A(0, 0) = d[0];
+        A(0, 1) = e[0];
+
+        for (int i = 1; i < n-1; i++) {
+            A(i, i-1) = e[i-1];
+            A(i, i) = d[i];
+            A(i, i+1) = e[i];
+        }
+
+        A(n-1, n-2) = e[n];
+        A(n-1, n-1) = d[n];
+
+        B = A;
+        R = zeros(n, n);
+        Jacobi jacobi;
+        jacobi.runJacobi(A, R, n);
+        vec eigval;
+        mat eigvec;
+        eig_sym(eigval, eigvec, B);
+        vec eigvalA = zeros<vec>(n);
+        for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+
+        CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
+
+        CHECK_CLOSE(norm(eigval, n), norm(eigvalA, n), eps);
+    }
 }
 
 int main() {
    return UnitTest::RunAllTests();
+
 }
