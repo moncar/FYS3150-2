@@ -1,2 +1,7 @@
-Project2:
-	g++ -W Jacobi.cpp -o JACOBICPP-01 -larmadillo -lUnitTest++ 
+LDFLAGS = -larmadillo -lUnitTest++
+
+JACOBICPP: Jacobi.cpp
+	g++ -g $< -o $@ $(LDFLAGS) 
+
+TDMACPP: TDMA.cpp
+	g++ -g $< -o $@ $(LDFLAGS)
