@@ -1,7 +1,7 @@
 LDFLAGS = -larmadillo -lUnitTest++
 
-Jacobi: Jacobi.cpp
+JACOBICPP: Jacobi.cpp
 	g++ -g $< -o $@ $(LDFLAGS) 
 
-TDMA: TDMA.cpp
+TDMACPP: TDMA.cpp
 	g++ -g $< -o $@ $(LDFLAGS)
