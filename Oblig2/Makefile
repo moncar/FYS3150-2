@@ -1,5 +1,6 @@
 LDFLAGS = -larmadillo -lUnitTest++
+CXXFLAGS = -pg -std=c++11 -O3
 
 JACOBICPP: Jacobi.cpp
-	g++ -g $< -o $@ $(LDFLAGS) 
+	g++-4.8 $(CXXFLAGS) $< -o $@ $(LDFLAGS) 
 
