@@ -28,12 +28,17 @@ class Jacobi {
         void rotate(mat& A, mat& R, int k, int l, int n) {
             double s, c;
             double t, tau;
-            tau = (A(l, l) - A(k, k))/(2*A(k, l));
-            if (tau > 0) t = 1.0/(tau + sqrt(1.0 + tau*tau));
-            else t = -1.0/(-tau + sqrt(1.0 + tau*tau));
+            if (A(k,l) != 0.0) {
+                tau = (A(l, l) - A(k, k))/(2*A(k, l));
+                if (tau > 0) t = 1.0/(tau + sqrt(1.0 + tau*tau));
+                else t = -1.0/(-tau + sqrt(1.0 + tau*tau));
 
-            c = 1/sqrt(1 + t*t);
-            s = c*t;
+                c = 1/sqrt(1 + t*t);
+                s = c*t;
+            } else {
+                c = 1.0;
+                s = 0.0;
+            }
 
             double a_kk, a_ll, a_ik, a_il, r_ik, r_il;
             a_kk = A(k, k);
@@ -109,7 +114,7 @@ SUITE(TestJacobi) {
 
     TEST(Schrodinger) {
 
-        int n = 100;
+        int n = 10;
         double eps = 1.0e-8;
         mat A, B, R;
         double rho = 0.0;
@@ -128,7 +133,7 @@ SUITE(TestJacobi) {
         vec diag = A.diag();
         vec diag_upper = A.diag(1);
         vec diag_lower = A.diag(-1);
-        
+
         diag_upper.fill(-1.0/(h*h));
         diag_lower.fill(-1.0/(h*h));
 
