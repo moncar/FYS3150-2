@@ -29,8 +29,8 @@ class Jacobi {
             double s, c;
             double t, tau;
             tau = (A(l, l) - A(k, k))/(2*A(k, l));
-            if (tau > 0) t = -tau + sqrt(1.0 + tau*tau);
-            else t = -tau - sqrt(1.0 + tau*tau);
+            if (tau > 0) t = 1.0/(tau + sqrt(1.0 + tau*tau));
+            else t = -1.0/(-tau + sqrt(1.0 + tau*tau));
 
             c = 1/sqrt(1 + t*t);
             s = c*t;
@@ -104,12 +104,12 @@ SUITE(TestJacobi) {
 
         CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
 
-        CHECK_CLOSE(norm(eigval, 2), norm(eigvalA, 2), eps);
+        CHECK_CLOSE(norm(eigval, n), norm(eigvalA, n), eps);
     }
 
     TEST(Schrodinger) {
 
-        int n = 10;
+        int n = 100;
         double eps = 1.0e-8;
         mat A, B, R;
         double rho = 0.0;
@@ -125,9 +125,9 @@ SUITE(TestJacobi) {
         e.fill(-1.0/(h*h));
         A = zeros(n, n);
 
-        auto diag = A.diag();
-        auto diag_upper = A.diag(1);
-        auto diag_lower = A.diag(-1);
+        vec diag = A.diag();
+        vec diag_upper = A.diag(1);
+        vec diag_lower = A.diag(-1);
         
         diag_upper.fill(-1.0/(h*h));
         diag_lower.fill(-1.0/(h*h));
@@ -151,8 +151,6 @@ SUITE(TestJacobi) {
         for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
 
         sort(eigvalA.begin(), eigvalA.end());
-
-        cout << R << endl;
 
         CHECK_CLOSE(norm(R, "fro"), norm(eigvec, "fro"), eps);
 
