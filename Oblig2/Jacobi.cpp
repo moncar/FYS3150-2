@@ -13,12 +13,13 @@ class Jacobi {
     public:
 
         // Perhaps the program will be faster for a mat& A?
-        double maxoffdiag(mat A, int* k, int* l, int n) {
+        double maxoffdiag(mat& A, int* k, int* l, int n) {
             double max = 0.0;
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
-                    if (fabs(A(i, j)) > max) {
-                        max = fabs(A(i, j));
+                    double temp = fabs(A(i, j));
+                    if (temp > max) {
+                        max = temp;
                         *l = i;
                         *k = j;
                     }
