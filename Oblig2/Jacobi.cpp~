@@ -179,10 +179,9 @@ SUITE(TestJacobi) {
     }
 }
 
-int main() {
-
+void Schrodinger(vec V) {
+    
     int n = 10;
-    double eps = 1.0e-8;
     mat A, B, R;
     double rho = 0.0;
     double rho_min = 0.0;
@@ -190,10 +189,9 @@ int main() {
     // Try different values
     double rho_max = 5.0;
     double h = (rho_max - rho_min)/((double) n+1);
-    vec d, e, V;
+    vec d, e;
     d = zeros<vec>(n);
     e = zeros<vec>(n);
-    V = zeros<vec>(n);
     e.fill(-1.0/(h*h));
     A = zeros(n, n);
 
@@ -227,11 +225,32 @@ int main() {
 
     eig_sym(eigval, eigvec, B);
 
+    // Try to fix eigenvector values and sorting
+    // Consider a test for the values
     vec eigvalA = A.diag();
     sort(eigvalA.begin(), eigvalA.end());
     cout << eigvalA << endl;
     cout << eigval << endl;
 
+
+}
+
+
+int main(int argc, char* argv[]) {
+
+    if (argc < 3) {
+        cout << "Usage: " << argv[0] << " (int) n (Potential from a) 0/1 (Potential from c)" << endl;
+        exit(1);;
+    }
+
+    int n = atoi(argv[1]);
+
+    if (atoi(argv[2]) == 0) {
+        vec V = zeros<vec>(n);
+        for (int i = 0; i < n; i++) V[i] = rho*rho;
+    }
+
+    cout << "\nTEST" << endl;
     return UnitTest::RunAllTests();
 }
 
