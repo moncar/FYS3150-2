@@ -283,8 +283,10 @@ int main(int argc, char* argv[]) {
                 file << j << "\t" << omega[j] << "\n";
                 for (int i = 0; i < n; i++) {
                     file << rho[i] << "\t";
-                    file << eigenvalues[i] << "\t";
-                    file << R_temp.col(eigenMap[eigenvalues[i]]) << "\n";
+                    file << eigenvalues[i] << "\n";
+                }
+                for (int i = 0; i < n; i++) {
+                    file << R_temp.col(eigenMap[eigenvalues[i]]);
                 }
             } else cout << "Unable to write to file." << endl;
         }
