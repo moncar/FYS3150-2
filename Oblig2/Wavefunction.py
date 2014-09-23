@@ -60,12 +60,15 @@ class Wavefunction:
         return self.omega, self.omega_iteration, self.rho, self.eigenvectors, self.eigenvalues
 
     def plotFunction(self):
-        plot(self.rho, self.eigenvectors)
+        # Is this the right plot?
+        # Should the eigenvector be multiplied by the eigenvalue?
+        # Perhaps the boundary conditions should be properly set?
+        plot(self.rho, self.eigenvectors[:,0])
         show()
 
 
 if __name__ == '__main__':
-#    wavey = Wavefunction("Solutions0.txt", 10)
-#    wavey.findValues()
-#    wavey.plotFunction()
+    wavey = Wavefunction("Solutions0.txt", 100)
+    wavey.findValues()
+    wavey.plotFunction()
     main()

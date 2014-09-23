@@ -285,6 +285,7 @@ int main(int argc, char* argv[]) {
                     file << rho[i] << "\t";
                     file << eigenvalues[i] << "\n";
                 }
+                // Making sure that all the eigenvectors are stacked together
                 for (int i = 0; i < n; i++) {
                     file << R_temp.col(eigenMap[eigenvalues[i]]);
                 }
