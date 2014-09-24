@@ -28,7 +28,7 @@ class Jacobi {
             return max;
         }
 
-        void rotate(mat& A, mat& R, int k, int l, int n) {
+        void rotate(mat* A, mat& R, int k, int l, int n) {
             double s, c;
             double t, tau;
             if (A(k,l) != 0.0) {

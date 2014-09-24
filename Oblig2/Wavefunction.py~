@@ -62,6 +62,7 @@ class Wavefunction:
     def plotFunction(self):
         # Is this the right plot?
         # Should the eigenvector be multiplied by the eigenvalue?
+        # Perhaps the boundary conditions should be properly set?
         plot(self.rho, self.eigenvectors[:,0])
         show()
 
