@@ -68,7 +68,7 @@ class Wavefunction:
 
 
 if __name__ == '__main__':
-    wavey = Wavefunction("Solutions0.txt", 100)
+    wavey = Wavefunction("Solutions0.txt", 200)
     wavey.findValues()
     wavey.plotFunction()
     main()

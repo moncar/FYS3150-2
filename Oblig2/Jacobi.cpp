@@ -199,6 +199,12 @@ void Schrodinger(vec* V, mat* A, mat* B, mat* R, int n) {
     vec eigval;
 
     eig_sym(eigval, eigvec, *B);
+
+    /*
+    cout << "Tingtang" << endl;
+    cout << eigval[0] << endl;
+    cout << eigval[1] << endl;
+    */
 }
 
 
@@ -206,7 +212,7 @@ int main(int argc, char* argv[]) {
 
     if (argc < 3) {
         cout << "Usage: " << argv[0] << " (int) n (Potential from a) 0/1 (Potential from c)" << endl;
-        exit(1);;
+        exit(1);
     }
 
     int n = atoi(argv[1]);
@@ -239,25 +245,44 @@ int main(int argc, char* argv[]) {
 
     if (atoi(argv[2]) == 0) {
         for (int i = 0; i < n; i++) {
-            rho[i] = rho_min + (i+1)*h;
             V[i] = rho[i]*rho[i];
             diag[i] = 2.0/(h*h) + V[i];
+            rho[i] = rho_min + (i+1)*h;
         }
         A.diag() = diag;
         B = A;
         Schrodinger(&V, &A, &B, &R, n);
+        /*
+        vec eigval = zeros<vec>(n);
+        for (int i = 0; i < n; i++) {
+            eigval[i] = A(i, i);
+        }
+        sort(eigval.begin(), eigval.end());
+        cout << eigval[0] << endl;
+        cout << eigval[1] << endl;
+        */
     } else {
         vec omega = zeros<vec>(4);
         omega[0] = 0.01;
         omega[1] = 0.5;
         omega[2] = 1.0;
         omega[3] = 5;
+        /*
+        rho[0] = 0;
+        V[0] = 0;
+        diag[0] = 2.0/(h*h);
+        */
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < n; i++) {
                 rho[i] = rho_min + (i+1)*h;
                 V[i] = omega[j]*omega[j]*rho[i]*rho[i] + 1.0/rho[i];
                 diag[i] = 2.0/(h*h) + V[i];
             }
+            /*
+            rho[n-1] = rho_min + n*h;
+            V[n-1] = 0;
+            diag[n-1] = 2.0/(h*h);
+            */
 
             A.diag() = diag;
             B = A;

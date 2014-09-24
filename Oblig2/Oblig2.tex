@@ -48,21 +48,27 @@
 
 
 \section{Jacobirotasjon}
-  For å løyse eigenverdi- og eigenvektorproblem vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke likheitstransformasjonar, vil 
+  For å løyse eigenverdi- og eigenvektorproblem vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke similaritetsformasjonar, vil 
   gjere alle ikkje-diagonale matriseelement til null. Denne algoritmen er i midlertid ikkje ein veldig effektiv algoritme då me ved ein rotasjon kan kome 
   i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
   tida teste verdiane mot ein toleranse.
 
   \subsection{Algoritma}
-    Ein likheitstransformasjon er gitt ved 
+    Ein similaritetstransformasjon er gitt ved 
     \begin{align*}
       B = S^TAS
     \end{align*}
     kor $S$ er ein ortogonal matrise der $SS^T = SS^{-1} = I$. Matrisa $S$ transformerer $A$ ein vinkel $\theta$ i planet medan $S^T$ tek ho tilbake.
-    Me vil då velje $\theta$ slik at alle ikkje-diagonale element vert null. Når me gjer dette numerisk må me gjere ein rekke likheitstransformasjonar 
+    Me vil då velje $\theta$ slik at alle ikkje-diagonale element vert null. Når me gjer dette numerisk må me gjere ein rekke similaritetstransformasjonar 
     for å oppnå dette. Då har me
     \begin{align*}
       B = S_n^T \dots S_1^TAS_1 \dots S_n.
     \end{align*}
+    Kvar matrise $S$ og $S^T$ er identitetsmatrisa med unntak av elementa $s_{kk} = s_{ll} = \cos{\theta}$, $s_{kl} = -s_{lk} = -\sin{\theta}$ og 
+    $s_{ii} = 1$ for $i \ne k$ og $i \ne l$. Produktet $B = S^TAS$ kan då skrivast som
+    \begin{align*}
+      b_{ii} &= a_{ii}, \qquad i \ne k, \ i \ne l \\
+
+    \end{align*}<++>
 
 \end{document}
