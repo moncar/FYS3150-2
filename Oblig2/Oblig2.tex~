@@ -1,0 +1,68 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{program}
+
+
+\begin{document}
+\begin{titlepage}
+
+  \title{\normalsize FYS3150 Computational Physics 2014\\
+  \vspace{10mm}
+  \huge Oblig 2\\
+  \vspace{10mm}
+  \normalsize {\bf Løysning av Schrödinger likninga for to elektron i ein tredimensjonal oscillator brønn.}}
+
+  \author{Øyvind Sigmundson Schøyen}
+
+\end{titlepage}
+
+\maketitle
+
+\newpage
+\begin{abstract}
+  Skriv eit samandrag av prosjektet her oppe. \\
+  \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig2}
+\end{abstract}
+
+\newpage
+  \tableofcontents
+\newpage
+
+\section{Introduksjon}
+  I dette prosjektet er me interesserte i å løyse Schrödinger likninga for to elektron. Likninga er skrive om slik at me kan jobbe med eit ein-lekam problem 
+  istadenfor to. Me nyttar lineær algebra for å løyse differensiallikningane som eit sett med lineær likningar. Måten me gjer dette på er ved Jacobirotasjon 
+  for å finne eigenvektorar og eigenverdiar. Til slutt vil me plotte bølgjefunksjonen for grunntilstanden til elektrona ved hjelp av eigenvektorane og 
+  eigenverdiane.
+
+
+\section{Jacobirotasjon}
+  For å løyse eigenverdi- og eigenvektorproblem vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke likheitstransformasjonar, vil 
+  gjere alle ikkje-diagonale matriseelement til null. Denne algoritmen er i midlertid ikkje ein veldig effektiv algoritme då me ved ein rotasjon kan kome 
+  i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
+  tida teste verdiane mot ein toleranse.
+
+  \subsection{Algoritma}
+    Ein likheitstransformasjon er gitt ved 
+    \begin{align*}
+      B = S^TAS
+    \end{align*}
+    kor $S$ er ein ortogonal matrise der $SS^T = SS^{-1} = I$. Matrisa $S$ transformerer $A$ ein vinkel $\theta$ i planet medan $S^T$ tek ho tilbake.
+    Me vil då velje $\theta$ slik at alle ikkje-diagonale element vert null. Når me gjer dette numerisk må me gjere ein rekke likheitstransformasjonar 
+    for å oppnå dette. Då har me
+    \begin{align*}
+      B = S_n^T \dots S_1^TAS_1 \dots S_n.
+    \end{align*}
+
+\end{document}

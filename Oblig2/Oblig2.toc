@@ -1,0 +1,4 @@
+\select@language {norsk}
+\contentsline {section}{\numberline {1}Introduksjon}{4}
+\contentsline {section}{\numberline {2}Jacobirotasjon}{4}
+\contentsline {subsection}{\numberline {2.1}Algoritma}{4}
