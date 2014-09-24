@@ -68,6 +68,14 @@
     $s_{ii} = 1$ for $i \ne k$ og $i \ne l$. Produktet $B = S^TAS$ kan då skrivast som
     \begin{align*}
       b_{ii} &= a_{ii}, \qquad i \ne k, \ i \ne l \\
-    \end{align*}<++>
+      b_{ik} &= a_{ik}\cos{\theta} - a_{il}\sin{\theta}, \qquad i \ne k, \ i \ne l \\
+      b_{il} &= a_{il}\cos{\theta} + a_{ik}\sin{\theta}, \qquad i \ne k, \ i \ne l \\
+      b_{kk} &= a_{kk}\cos^2{\theta} - 2a_{kl}\cos{\theta}\sin{\theta} + a_{ll}\sin^2{\theta} \\
+      b_{ll} &= a_{ll}\cos^2{\theta} + 2a_{kl}\cos{\theta}\sin{\theta} + a_{kk}\sin^2{\theta} \\
+      b_{kl} &= (a_{kk} - a_{ll})\cos{\theta}\sin{\theta} + a_{kl}(\cos^2{\theta} - \sin^2{\theta}).
+    \end{align*}
+    Me vil no velje $\theta$ slik at alle ikkje-diagonale element $b_{kl}$ i praksis vert null. For kvar iterasjon vil me då teste om summen av alle 
+    dei ikkje-diagonale elementa er mindre enn ein toleranse $\epsilon$. Me vil i midlertid ikkje gjer dette då det er ein tidkrevande prosess. 
+    Erstatninga vert då å sjå om det største elementet blant dei ikkje-diagonale elementa er mindre enn $\epsilon$.
 
 \end{document}
