@@ -13,11 +13,11 @@ using namespace chrono;
 class Jacobi {
     public:
 
-        double maxoffdiag(mat& A, int* k, int* l, int n) {
+        double maxoffdiag(mat* A, int* k, int* l, int n) {
             double max = 0.0;
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
-                    double temp = fabs(A(i, j));
+                    double temp = fabs((*A)(i, j));
                     if (temp > max) {
                         max = temp;
                         *l = i;
@@ -28,11 +28,11 @@ class Jacobi {
             return max;
         }
 
-        void rotate(mat& A, mat& R, int k, int l, int n) {
+        void rotate(mat* A, mat* R, int k, int l, int n) {
             double s, c;
             double t, tau;
-            if (A(k,l) != 0.0) {
-                tau = (A(l, l) - A(k, k))/(2*A(k, l));
+            if ((*A)(k,l) != 0.0) {
+                tau = ((*A)(l, l) - (*A)(k, k))/(2*(*A)(k, l));
                 if (tau > 0) t = 1.0/(tau + sqrt(1.0 + tau*tau));
                 else t = -1.0/(-tau + sqrt(1.0 + tau*tau));
 
@@ -44,33 +44,33 @@ class Jacobi {
             }
 
             double a_kk, a_ll, a_ik, a_il, r_ik, r_il;
-            a_kk = A(k, k);
-            a_ll = A(l, l);
+            a_kk = (*A)(k, k);
+            a_ll = (*A)(l, l);
 
             // Changing the matrix elements with indices k and l
-            A(k, k) = c*c*a_kk - 2.0*c*s*A(k, l) + s*s*a_ll;
-            A(l, l) = s*s*a_kk + 2.0*c*s*A(k, l) + c*c*a_ll;
-            A(k, l) = 0.0;
-            A(l, k) = 0.0;
+            (*A)(k, k) = c*c*a_kk - 2.0*c*s*(*A)(k, l) + s*s*a_ll;
+            (*A)(l, l) = s*s*a_kk + 2.0*c*s*(*A)(k, l) + c*c*a_ll;
+            (*A)(k, l) = 0.0;
+            (*A)(l, k) = 0.0;
 
             // change the remaining elements
             for (int i = 0; i < n; i++) {
                 if (i != k && i != l) {
-                    a_ik = A(i, k);
-                    a_il = A(i, l);
-                    A(i, k) = A(k, i) = c*a_ik - s*a_il;
-                    A(i, l) = A(l, i) = c*a_il + s*a_ik;
+                    a_ik = (*A)(i, k);
+                    a_il = (*A)(i, l);
+                    (*A)(i, k) = (*A)(k, i) = c*a_ik - s*a_il;
+                    (*A)(i, l) = (*A)(l, i) = c*a_il + s*a_ik;
                 }
 
                 // Compute the new eigenvectors
-                r_ik = R(i, k);
-                r_il = R(i, l);
-                R(i, k) = c*r_ik - s*r_il;
-                R(i, l) = c*r_il +  s*r_ik;
+                r_ik = (*R)(i, k);
+                r_il = (*R)(i, l);
+                (*R)(i, k) = c*r_ik - s*r_il;
+                (*R)(i, l) = c*r_il +  s*r_ik;
             }
         } 
 
-        void runJacobi(mat& A, mat& R, int n) {
+        void runJacobi(mat* A, mat* R, int n) {
             int k, l;
             double max_offdiag = maxoffdiag(A, &k, &l, n);
             double eps = 1.0e-8;
@@ -105,7 +105,7 @@ SUITE(TestJacobi) {
         R = zeros(n, n);
         R.eye();
         Jacobi rotation;
-        rotation.rotate(A, R, k, l, n);
+        rotation.rotate(&A, &R, k, l, n);
 
         mat A_exact, R_exact;
         
@@ -138,7 +138,7 @@ SUITE(TestJacobi) {
           << 0 << -1 << 2 << endr;
 
         Jacobi maxoff;
-        max = maxoff.maxoffdiag(A, &k, &l, n);
+        max = maxoff.maxoffdiag(&A, &k, &l, n);
         
         CHECK(max == 3);
     }
@@ -159,7 +159,7 @@ SUITE(TestJacobi) {
         R.eye();
 
         Jacobi total;
-        total.runJacobi(A, R, n);
+        total.runJacobi(&A, &R, n);
 
         mat A_exact, R_exact;
         A_exact << 2 << 0 << 0 << endr
@@ -188,12 +188,12 @@ void Schrodinger(vec* V, mat* A, mat* B, mat* R, int n) {
 
     // Starting clock
     auto start = high_resolution_clock::now();
-    jacobi.runJacobi(*A, *R, n);
+    jacobi.runJacobi(A, R, n);
     auto finish = high_resolution_clock::now();
 
     cout << "Duration of Jacobi with n = " << n << ": "
-         << duration_cast<nanoseconds>(finish - start).count()
-         << "ns" << endl;
+         << duration_cast<nanoseconds>(finish - start).count()*(1.0e-9)
+         << "s" << endl;
 
     mat eigvec;
     vec eigval;
