@@ -212,6 +212,7 @@ int main(int argc, char* argv[]) {
     int n = atoi(argv[1]);
     mat A, B, R;
 
+    // Should the endpoints be fixed to zero?
     vec rho = zeros<vec>(n);
     double rho_min = 0.0;
     double rho_max = 5.0;
