@@ -1,0 +1,3 @@
+1: Smestad - Skøyen \\ 
+2: Smestad - Ullevål \\ 
+3: Skøyen - Oslo S \\ 

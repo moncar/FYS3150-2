@@ -13,6 +13,7 @@
 \usepackage{subfig}
 \usepackage{float}
 \usepackage{program}
+\usepackage{commath}
 
 
 \begin{document}
@@ -49,7 +50,7 @@
 
 \section{Jacobirotasjon}
   For å løyse eigenverdi- og eigenvektorproblem vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke similaritetsformasjonar, vil 
-  gjere alle ikkje-diagonale matriseelement til null. Denne algoritmen er i midlertid ikkje ein veldig effektiv algoritme då me ved ein rotasjon kan kome 
+  gjere alle ikkje-diagonale matriseelement til null. Denne algoritmen er likevel ikkje ein veldig effektiv algoritme då me ved ein rotasjon kan kome 
   i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
   tida teste verdiane mot ein toleranse.
 
@@ -75,7 +76,40 @@
       b_{kl} &= (a_{kk} - a_{ll})\cos{\theta}\sin{\theta} + a_{kl}(\cos^2{\theta} - \sin^2{\theta}).
     \end{align*}
     Me vil no velje $\theta$ slik at alle ikkje-diagonale element $b_{kl}$ i praksis vert null. For kvar iterasjon vil me då teste om summen av alle 
-    dei ikkje-diagonale elementa er mindre enn ein toleranse $\epsilon$. Me vil i midlertid ikkje gjer dette då det er ein tidkrevande prosess. 
-    Erstatninga vert då å sjå om det største elementet blant dei ikkje-diagonale elementa er mindre enn $\epsilon$.
+    dei ikkje-diagonale elementa er mindre enn ein toleranse $\epsilon$. Me vil derimot ikkje gjer dette då det er ein tidkrevande prosess. 
+    Erstatninga vert då å sjå om det største elementet blant dei ikkje-diagonale elementa er mindre enn $\epsilon$. Dette vil då vere
+    \begin{align*}
+      \abs{a_{kl}} = \text{max}_{i \ne j}\abs{a_{ij}}.
+    \end{align*}
+    Me krever at $b_{kl} = b_{lk} = 0$. Det gjer oss likninga
+    \begin{align}
+      a_{kl}(c^2 - s^2) + (a_{kk} - a_{ll})cs = b_{kl} = 0.
+    \end{align}
+    Me definerer no 
+    \begin{align*}
+      \tau = \frac{a_{ll} - a_{kk}}{2a_{kl}} \qquad \Rightarrow \qquad a_{ll} - a_{kk} = 2\tau a_{kl}.
+    \end{align*}
+    Setter dette inn i (1) og får
+    \begin{align*}
+      &a_{kl}c^2 - a_{kl}s^2 - 2\tau a_{kl}cs = 0, \\
+      \Rightarrow \qquad &a_{kl} - a_{kl}\frac{s^2}{c^2} - 2\tau a_{kl}\frac{s}{c} = 0. \\
+    \end{align*}
+    Siden $c = \cos{\theta}$ og $s = \sin{\theta}$ vil me få 
+    \begin{align*}
+      &a_{kl} - a_{kl}\tan^2{\theta} - 2\tau a_{kl} \tan{\theta} = 0, \\
+      \Rightarrow \qquad &1 - t^2 - 2\tau t = 0, \\
+      \Rightarrow \qquad &t^2 + 2\tau t - 1 = 0,
+    \end{align*}
+    kor $t = \tan{\theta}$. Me vil då få 
+    \begin{align*}
+      t &= \frac{-2\tau \pm \sqrt{4\tau^2 - 4(-1)}}{2} \\
+      &= -\tau \pm \sqrt{1 + \tau^2}.
+    \end{align*}
+    Me finner då $c$ og $s$ ved
+    \begin{align*}
+      
+    \end{align*}<++>
+
+
 
 \end{document}

@@ -1,0 +1,1 @@
+Antal iterasjoner for å finne likevektsvektoren: 13

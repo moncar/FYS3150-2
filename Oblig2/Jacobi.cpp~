@@ -73,7 +73,8 @@ class Jacobi {
         void runJacobi(mat* A, mat* R, int n) {
             int k, l;
             double max_offdiag = maxoffdiag(A, &k, &l, n);
-            double eps = 1.0e-8;
+            // Lower eps to get fewer iterations
+            double eps = 1.0e-12;
             int iterations = 0;
             double max_number_iterations = (double) n * (double) n * (double) n; 
             while (fabs(max_offdiag) > eps && (double) iterations < max_number_iterations) {
@@ -306,7 +307,7 @@ int main(int argc, char* argv[]) {
             string name = "Solutions" + to_string(j) + ".txt";
             ofstream file(name);
             if  (file.is_open()) {
-                file << j << "\t" << omega[j] << "\n";
+                file << j << "\t" << omega[j] << "\t" << rho_min << "\t" << h << "\n";
                 for (int i = 0; i < n; i++) {
                     file << rho[i] << "\t";
                     file << eigenvalues[i] << "\n";
@@ -319,7 +320,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cout << "\nTEST" << endl;
+    cout << "\n\nRunning C++ tests" << endl;
     return UnitTest::RunAllTests();
 }
 
