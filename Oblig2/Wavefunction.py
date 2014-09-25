@@ -82,7 +82,7 @@ if __name__ == '__main__':
         wavey.findValues()
         wavey.plotFunction()
         hold('on')
-        title("Potential in ground state for two electrons with Coloumb interaction")
+        title("Potential in ground state")
         xlabel("rho")
         ylabel("eigenvectors")
         omega[i] = wavey.omega

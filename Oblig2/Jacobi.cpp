@@ -77,7 +77,7 @@ class Jacobi {
             double eps = 1.0e-12;
             int iterations = 0;
             double max_number_iterations = (double) n * (double) n * (double) n; 
-            while (fabs(max_offdiag) > eps && (double) iterations < max_number_iterations) {
+            while ((fabs(max_offdiag)*fabs(max_offdiag)) > eps && (double) iterations < max_number_iterations) {
                 max_offdiag = maxoffdiag(A, &k, &l, n);
                 rotate(A, R, k, l, n);
                 iterations++;
@@ -183,29 +183,35 @@ SUITE(TestJacobi) {
     }
 }
 
-void Schrodinger(vec* V, mat* A, mat* B, mat* R, int n) {
+void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
 
     Jacobi jacobi;
+
+    if (optn) {
+        mat B, eigvec;
+        vec eigval;
+
+        // Used in Armadillo solver
+        B = *A;
+
+        auto start2 = high_resolution_clock::now();
+        eig_sym(eigval, eigvec, B);
+        auto finish2 = high_resolution_clock::now();
+
+        cout << "Duration of Armadillo solver for n = " << n << ": "
+             << duration_cast<nanoseconds>(finish2 - start2).count()*(1.0e-9)
+             << "s" << endl;
+    }
 
     // Starting clock
     auto start = high_resolution_clock::now();
     jacobi.runJacobi(A, R, n);
     auto finish = high_resolution_clock::now();
 
-    cout << "Duration of Jacobi with n = " << n << ": "
+    cout << "Duration of Jacobi for n = " << n << ": "
          << duration_cast<nanoseconds>(finish - start).count()*(1.0e-9)
          << "s" << endl;
 
-    mat eigvec;
-    vec eigval;
-
-    eig_sym(eigval, eigvec, *B);
-
-    /*
-    cout << "Tingtang" << endl;
-    cout << eigval[0] << endl;
-    cout << eigval[1] << endl;
-    */
 }
 
 
@@ -217,9 +223,10 @@ int main(int argc, char* argv[]) {
     }
 
     int n = atoi(argv[1]);
-    mat A, B, R;
+    mat A, R;
 
     // Should the endpoints be fixed to zero?
+    // This is done in the plot
     vec rho = zeros<vec>(n);
     double rho_min = 0.0;
     double rho_max = 5.0;
@@ -245,53 +252,70 @@ int main(int argc, char* argv[]) {
     vec V = zeros<vec>(n);
 
     if (atoi(argv[2]) == 0) {
-        for (int i = 0; i < n; i++) {
-            V[i] = rho[i]*rho[i];
-            diag[i] = 2.0/(h*h) + V[i];
-            rho[i] = rho_min + (i+1)*h;
+        vec n_vec = zeros<vec>(7);
+        n_vec[0] = 10;
+        n_vec[1] = 25;
+        n_vec[2] = 50;
+        n_vec[3] = 75;
+        n_vec[4] = 100;
+        n_vec[5] = 150;
+        n_vec[6] = 200;
+
+        //
+        //
+        //
+        // Move all values that need n into the first loop and construct them there
+        // Make a python program that plots the error
+        //
+        //
+        //
+
+
+
+        for (int j = 0; j < 7; j++) {
+            for (int i = 0; i < n_vec[j]; i++) {
+                rho[i] = rho_min + (i+1)*h;
+                V[i] = rho[i]*rho[i];
+                diag[i] = 2.0/(h*h) + V[i];
+            }
+
+            A.diag() = diag;
+            Schrodinger(&V, &A, &R, n_vec[j], true);
+            vec eigvalA = zeros<vec>(n);
+
+            for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+
+            sort(eigvalA.begin(), eigvalA.end());
+
+            vec delta_eigenval = zeros<vec>(3);
+            vec exact_eigenvals = zeros<vec>(3);
+
+            exact_eigenvals[0] = 3;
+            exact_eigenvals[1] = 7;
+            exact_eigenvals[2] = 11;
+            for (int i = 0; i < 3; i++) delta_eigenval[i] = fabs(exact_eigenvals[i] - eigvalA[i]);
+
+            for (int i = 0; i < 3; i++) cout << delta_eigenval[i] << "\n";
         }
-        A.diag() = diag;
-        B = A;
-        Schrodinger(&V, &A, &B, &R, n);
-        /*
-        vec eigval = zeros<vec>(n);
-        for (int i = 0; i < n; i++) {
-            eigval[i] = A(i, i);
-        }
-        sort(eigval.begin(), eigval.end());
-        cout << eigval[0] << endl;
-        cout << eigval[1] << endl;
-        */
+
     } else {
         vec omega = zeros<vec>(4);
         omega[0] = 0.01;
         omega[1] = 0.5;
         omega[2] = 1.0;
         omega[3] = 5;
-        /*
-        rho[0] = 0;
-        V[0] = 0;
-        diag[0] = 2.0/(h*h);
-        */
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < n; i++) {
                 rho[i] = rho_min + (i+1)*h;
                 V[i] = omega[j]*omega[j]*rho[i]*rho[i] + 1.0/rho[i];
                 diag[i] = 2.0/(h*h) + V[i];
             }
-            /*
-            rho[n-1] = rho_min + n*h;
-            V[n-1] = 0;
-            diag[n-1] = 2.0/(h*h);
-            */
 
             A.diag() = diag;
-            B = A;
             mat A_temp = A; // Eigenvalues
-            mat B_temp = B;
             mat R_temp = R; // Eigenvectors
             vec V_temp = V;
-            Schrodinger(&V_temp, &A_temp, &B_temp, &R_temp, n);
+            Schrodinger(&V_temp, &A_temp, &R_temp, n, false);
 
             // The eigenvectors and eigenvalues are sorted together
             // We must sort the eigenvectors according to the eigenvalues

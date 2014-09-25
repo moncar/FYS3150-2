@@ -54,6 +54,7 @@
   i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
   tida teste verdiane mot ein toleranse.
 
+  % Det er kanskje ein idè å splitte algoritme framstillinga i ein numerisk og ein analytisk del?
   \subsection{Algoritma}
     Ein similaritetstransformasjon er gitt ved 
     \begin{align*}
@@ -105,10 +106,24 @@
       t &= \frac{-2\tau \pm \sqrt{4\tau^2 - 4(-1)}}{2} \\
       &= -\tau \pm \sqrt{1 + \tau^2}.
     \end{align*}
-    Me finner då $c$ og $s$ ved
+    For å unngå avrungdingsfeil ved $\tau >> 0$ gonger me andregradslikninga med den konjugerte. Det vil gje oss
     \begin{align*}
-      
-    \end{align*}<++>
+      t &= \left( -\tau \pm \sqrt{1 + \tau^2} \right)\left( \frac{-\tau \pm \sqrt{1 + \tau^2}}{-\tau \pm \sqrt{1 + \tau^2}} \right) \\
+      &= \frac{-\tau^2 + (1 + \tau^2)}{\tau \pm \sqrt{1 + \tau^2}} = \frac{1}{\tau \pm \sqrt{1 + \tau^2}},
+    \end{align*}
+    som gjer oss
+    \begin{align*}
+      t = \frac{1}{\tau \pm \sqrt{1 + \tau^2}} \qquad \lor \qquad t = \frac{-1}{-\tau + \sqrt{1 + \tau^2}}.
+    \end{align*}
+    Me vil no velje den minste av røttene $t$ slik at $c$ og $s$ henholdsvis går mot ein og null ved
+    \begin{align*}
+      c = \frac{1}{\sqrt{1 + t^2}}, \qquad s = tc.
+    \end{align*}
+    Då vil me kunne begrense vinkelen $\theta \leq \frac{\pi}{4}$ slik at differansen mellom matrisa $B$ og $A$ vert så liten som mogleg ved formelen
+    \begin{align*}
+      \lvert B - A \rvert_F^2 = 4\underbrace{(1 - c)}_{= 0 \text{ for } c \to 1}\sum_{i = 1, i\ne k, l}^n(a_{ik}^2 + a_{il}^2) + \frac{2a_{kl}^2}{c^2}.
+    \end{align*}
+    Me vil fortsette desse operasjonane heilt til $\text{max}(a_{ij})^2 \leq \epsilon$ for $i \ne j$.
 
 
 
