@@ -10,7 +10,7 @@ class TestWavefunction(TestCase):
         filename = open("TESTFILE.txt", "w")
         filename.write("%g \t %g \t %g \t %g" % (0, 1, 0, 1))
         for i in range(10):
-            filename.write("\n%g \t %g" % (i+1, 5*i))
+            filename.write("\n%g" % (5*i))
         for i in range(10):
             for j in range(10):
                 self.eigenTemp[j][i] = j
@@ -22,7 +22,7 @@ class TestWavefunction(TestCase):
         omega, omega_i, rho, eigenvectors, eigenvalues = self.Wave.findValues()
         self.assertEqual(omega, 1.0)
         self.assertEqual(omega_i, 0)
-        self.assertEqual(linalg.norm(rho), linalg.norm(array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])))
+        self.assertEqual(linalg.norm(rho), linalg.norm(array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])))
         self.assertEqual(linalg.norm(eigenvectors), linalg.norm(self.eigenTemp))
         self.assertEqual(linalg.norm(eigenvalues), linalg.norm(5*array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])))
 
@@ -47,10 +47,8 @@ class Wavefunction:
         
         i = 0
         while i < self.n:
-            splitted = (filename.readline()).split()
-            # Consider calculating rho anew to get more exact
-            self.rho[i+1] = float(splitted[0])
-            self.eigenvalues[i] = float(splitted[1])
+            self.eigenvalues[i] = float(filename.readline())
+            self.rho[i] = self.rho_min + (i+1)*self.h
             i += 1
 
         for j in range(self.n):
@@ -64,7 +62,8 @@ class Wavefunction:
         # Adding the boundary conditions
         # Should be five, but due to numerical roundoff in the filewriting and reading
         # it doesnt get enough significants to solve this
-        self.rho[self.n+1] = self.rho_min + (self.n+1)*self.h;
+        self.rho[self.n] = self.rho_min + (self.n+1)*self.h
+        self.rho[self.n+1] = self.rho_min + (self.n+2)*self.h
 
         return self.omega, self.omega_iteration, self.rho, self.eigenvectors, self.eigenvalues
 
@@ -82,30 +81,52 @@ class Wavefunction:
         
 
     def plotFunction(self):
-        # Is this the right plot?
-        # Plot the normalized eigenvectors (quantum mechanical normalization)
         plot(self.rho, self.eigenvectors[:, 0]**2)
 
 
 if __name__ == '__main__':
 
     n = 200
+    wavey = []
     omega = zeros(4)
     os.system("./JACOBICPP %g 1" % n)
     for i in range(4):
-        wavey = Wavefunction("Solutions%g.txt" % i, n)
-        wavey.findValues()
-        wavey.normalize()
-        wavey.plotFunction()
+        wavey.append(Wavefunction("Solutions%g.txt" % i, n))
+        wavey[i].findValues()
+        wavey[i].normalize()
+        wavey[i].plotFunction()
         hold('on')
         title("Potential in ground state")
         xlabel("rho")
-        ylabel("eigenvectors")
-        omega[i] = wavey.omega
+        ylabel("potential")
+        omega[i] = wavey[i].omega
     legend(("Omega_r = %g" % omega[0], "Omega_r = %g" % omega[1], "Omega_r = %g" % omega[2],
             "Omega_r = %g" % omega[3]), loc=1)
     hold('off')
     show()
+
+    os.system("./JACOBICPP %g 0" % n)
+    wavey.append(Wavefunction("Solutions_old.txt", n))
+    wavey[4].findValues();
+    wavey[4].normalize()
+    figure()
+    wavey[4].plotFunction()
+    hold('on')
+    wavey[2].plotFunction()
+    title("Potential with and without Coulomb interaction")
+    xlabel("rho")
+    ylabel("potential")
+    legend(("Without Coulomb interaction", "With Coulomb interaction and omega_r = 1.0"), loc=1)
+    hold('off')
+    show()
+
+    for i in rane(4):
+        figure()
+        wavey[i].plotFunction()
+        title("Potential in ground state for omega_r = %g" % omega[i])
+        xlabel("rho")
+        ylabel("potential")
+        show()
 
     print "\n\nRunning Python tests"
     main()

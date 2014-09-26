@@ -20,8 +20,8 @@ class Error:
         filename.close()
 
 if __name__ == '__main__':
-    n = zeros(7)
-    eigenvalues = zeros((7, 3))
+    n = zeros(8)
+    eigenvalues = zeros((8, 3))
     n[0] = 10
     n[1] = 25
     n[2] = 50
@@ -29,8 +29,9 @@ if __name__ == '__main__':
     n[4] = 100
     n[5] = 150
     n[6] = 200
+    n[7] = 250
 
-    for i in range(7):
+    for i in range(8):
         os.system("./JACOBICPP %g 0" % n[i])
         errors = Error("Errors%g.txt" % n[i])
         errors.readFile()
@@ -38,7 +39,7 @@ if __name__ == '__main__':
 
     plot(n, eigenvalues[:, 0])
     hold('on')
-    title('Precision of the eigenvalues in Jacobis method')
+    title("Precision of the eigenvalues in Jacobi's method")
     xlabel('n_step')
     ylabel('error(n_step)')
     plot(n, eigenvalues[:, 1])

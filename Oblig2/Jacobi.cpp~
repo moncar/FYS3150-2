@@ -15,6 +15,7 @@ class Jacobi {
 
         double maxoffdiag(mat* A, int* k, int* l, int n) {
             double max = 0.0;
+            // Does this method locate only values below the diagonal?
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
                     double temp = fabs((*A)(i, j));
@@ -260,11 +261,27 @@ int main(int argc, char* argv[]) {
 
         A.diag() = diag;
         Schrodinger(&V, &A, &R, n, true);
-        vec eigvalA = zeros<vec>(n);
 
-        for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+        vec eigenvalues = zeros<vec>(n);
+        map<double, int> eigenMap;
+        for (int i = 0; i < n; i++) {
+            eigenvalues[i] = A(i, i);
+            eigenMap[eigenvalues[i]] = i;
+        }
 
-        sort(eigvalA.begin(), eigvalA.end());
+        sort(eigenvalues.begin(), eigenvalues.end());
+        string new_name = "Solutions_old.txt";
+        ofstream new_file(new_name);
+        if (new_file.is_open()) {
+            new_file << 0 << "\t" << 0 << "\t" << rho_min << "\t" << h << "\n";
+            for (int i = 0; i < n; i++) {
+                new_file << eigenvalues[i] << "\n";
+            }
+            for (int i = 0; i < n; i++) {
+                new_file << R.col(eigenMap[eigenvalues[i]]);
+            }
+        }
+        new_file.close();
 
         vec delta_eigenval = zeros<vec>(3);
         vec exact_eigenvals = zeros<vec>(3);
@@ -272,7 +289,7 @@ int main(int argc, char* argv[]) {
         exact_eigenvals[0] = 3;
         exact_eigenvals[1] = 7;
         exact_eigenvals[2] = 11;
-        for (int i = 0; i < 3; i++) delta_eigenval[i] = fabs(exact_eigenvals[i] - eigvalA[i]);
+        for (int i = 0; i < 3; i++) delta_eigenval[i] = fabs(exact_eigenvals[i] - eigenvalues[i]);
 
         string name = "Errors" + to_string(n) + ".txt";
         ofstream file(name);
@@ -281,13 +298,20 @@ int main(int argc, char* argv[]) {
         }
         file.close();
 
+
     } else {
         vec omega = zeros<vec>(4);
-        omega[0] = 0.01;
-        omega[1] = 0.5;
-        omega[2] = 1.0;
-        omega[3] = 5;
+        omega[0] = 0.01; // rho_max ~ 300
+        omega[1] = 0.5; // rho_max ~ 10
+        omega[2] = 1.0; // rho_max ~ 5
+        omega[3] = 5.0; // rho_max ~ 2
+        vec varying_rho = zeros<vec>(4);
+        varying_rho[0] = 300;
+        varying_rho[1] = 10;
+        varying_rho[2] = 5;
+        varying_rho[3] = 2;
         for (int j = 0; j < 4; j++) {
+            h = (varying_rho[j] - rho_min)/((double) n+1);
             for (int i = 0; i < n; i++) {
                 rho[i] = rho_min + (i+1)*h;
                 V[i] = omega[j]*omega[j]*rho[i]*rho[i] + 1.0/rho[i];
@@ -316,7 +340,6 @@ int main(int argc, char* argv[]) {
             if  (file.is_open()) {
                 file << j << "\t" << omega[j] << "\t" << rho_min << "\t" << h << "\n";
                 for (int i = 0; i < n; i++) {
-                    file << rho[i] << "\t";
                     file << eigenvalues[i] << "\n";
                 }
                 // Making sure that all the eigenvectors are stacked together
@@ -327,8 +350,10 @@ int main(int argc, char* argv[]) {
             } else cout << "Unable to write to file." << endl;
         }
     }
-
+    /*
+     * UnitTests for the class Jacobi
     cout << "\n\nRunning C++ tests" << endl;
     return UnitTest::RunAllTests();
+    */
 }
 

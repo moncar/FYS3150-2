@@ -125,6 +125,13 @@
     \end{align*}
     Me vil fortsette desse operasjonane heilt til $\text{max}(a_{ij})^2 \leq \epsilon$ for $i \ne j$.
 
+  \subsection{Implementering}
+    Algoritma vert implementert i ein klasse med tre metodar som løyser eigenverdi og eigenvektor problemet.
+    % Vert det nødvendig med pseudokode?
+
+
+
+\section{Resultat}
 
 
 \end{document}
