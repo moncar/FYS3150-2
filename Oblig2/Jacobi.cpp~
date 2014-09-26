@@ -306,6 +306,7 @@ int main(int argc, char* argv[]) {
         omega[2] = 1.0; // rho_max ~ 5
         omega[3] = 5.0; // rho_max ~ 2
         vec varying_rho = zeros<vec>(4);
+        // This might be overkill...
         varying_rho[0] = 300;
         varying_rho[1] = 10;
         varying_rho[2] = 5;

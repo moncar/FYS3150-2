@@ -2,3 +2,6 @@
 \contentsline {section}{\numberline {1}Introduksjon}{4}
 \contentsline {section}{\numberline {2}Jacobirotasjon}{4}
 \contentsline {subsection}{\numberline {2.1}Algoritma}{4}
+\contentsline {subsection}{\numberline {2.2}Implementering}{6}
+\contentsline {section}{\numberline {3}Resultat}{6}
+\contentsline {subsection}{\numberline {3.1}Jacobi}{6}
