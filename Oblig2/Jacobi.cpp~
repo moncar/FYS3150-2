@@ -252,39 +252,34 @@ int main(int argc, char* argv[]) {
     vec V = zeros<vec>(n);
 
     if (atoi(argv[2]) == 0) {
-        vec n_vec = zeros<vec>(7);
-        n_vec[0] = 10;
-        n_vec[1] = 25;
-        n_vec[2] = 50;
-        n_vec[3] = 75;
-        n_vec[4] = 100;
-        n_vec[5] = 150;
-        n_vec[6] = 200;
-        for (int j = 0; j < 7; j++) {
-            for (int i = 0; i < n_vec[j]; i++) {
-                rho[i] = rho_min + (i+1)*h;
-                V[i] = rho[i]*rho[i];
-                diag[i] = 2.0/(h*h) + V[i];
-            }
-
-            A.diag() = diag;
-            Schrodinger(&V, &A, &R, n_vec[j], true);
-            vec eigvalA = zeros<vec>(n);
-
-            for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
-
-            sort(eigvalA.begin(), eigvalA.end());
-
-            vec delta_eigenval = zeros<vec>(3);
-            vec exact_eigenvals = zeros<vec>(3);
-
-            exact_eigenvals[0] = 3;
-            exact_eigenvals[1] = 7;
-            exact_eigenvals[2] = 11;
-            for (int i = 0; i < 3; i++) delta_eigenval[i] = fabs(exact_eigenvals[i] - eigvalA[i]);
-
-            for (int i = 0; i < 3; i++) cout << delta_eigenval[i] << "\n";
+        for (int i = 0; i < n; i++) {
+            rho[i] = rho_min + (i+1)*h;
+            V[i] = rho[i]*rho[i];
+            diag[i] = 2.0/(h*h) + V[i];
         }
+
+        A.diag() = diag;
+        Schrodinger(&V, &A, &R, n, true);
+        vec eigvalA = zeros<vec>(n);
+
+        for (int i = 0; i < n; i++) eigvalA[i] = A(i, i);
+
+        sort(eigvalA.begin(), eigvalA.end());
+
+        vec delta_eigenval = zeros<vec>(3);
+        vec exact_eigenvals = zeros<vec>(3);
+
+        exact_eigenvals[0] = 3;
+        exact_eigenvals[1] = 7;
+        exact_eigenvals[2] = 11;
+        for (int i = 0; i < 3; i++) delta_eigenval[i] = fabs(exact_eigenvals[i] - eigvalA[i]);
+
+        string name = "Errors" + to_string(n) + ".txt";
+        ofstream file(name);
+        if (file.is_open()) {
+            for (int i = 0; i < 3; i++) file << log10(delta_eigenval[i]) << "\n";
+        }
+        file.close();
 
     } else {
         vec omega = zeros<vec>(4);
@@ -328,6 +323,7 @@ int main(int argc, char* argv[]) {
                 for (int i = 0; i < n; i++) {
                     file << R_temp.col(eigenMap[eigenvalues[i]]);
                 }
+                file.close();
             } else cout << "Unable to write to file." << endl;
         }
     }
