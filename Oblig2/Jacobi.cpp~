@@ -199,7 +199,7 @@ void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
         eig_sym(eigval, eigvec, B);
         auto finish2 = high_resolution_clock::now();
 
-        cout << "Duration of Armadillo solver for n = " << n << ": "
+        cout << "Duration of Armadillo for n = " << n << ": "
              << duration_cast<nanoseconds>(finish2 - start2).count()*(1.0e-9)
              << "s" << endl;
     }
@@ -212,7 +212,6 @@ void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
     cout << "Duration of Jacobi for n = " << n << ": "
          << duration_cast<nanoseconds>(finish - start).count()*(1.0e-9)
          << "s" << endl;
-
 }
 
 

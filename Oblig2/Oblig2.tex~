@@ -140,7 +140,27 @@
   Til slutt har eg lagt ved ein feilanalyse på eigenverdiane som funksjon av $n_{\text{step}}$.
 
   \subsection{Jacobi}
-    Jacobirotasjon er ein reknetung algoritme som har ein $\mathcal{O}(n^3)$.
+    Jacobirotasjon er ein reknetung algoritme. Denne metoda bryt veldig kjapt ned når ein lager ei stor matrise. For vårt formål er difor 
+    essensielt at me uttnyttar peikar- og referansemoglegheitane i C++ for å unngå unødvendig tidbruk på lagring. Køyretida til metoden går som $\mathcal{O}(n^3)$ for rotasjon. 
+    Mykje av grunnen til at metoda er treig kjem frå det faktum at me står i fare for å gjere eit element som er null til ikkje-null ved ein rotasjon. Me merker fort når matrisa 
+    blir stor at tidbruken stig veldig kjapt. Ein samanlikning av $\texttt{eig\_sym}$ frå Armadillo og Jacobi gjer oss køyretidene i sekund i tabellen under.
+    \begin{center}
+      \begin{tabular}{|l||l|l|}
+        \hline
+        Steg & \text{Armadillo} & \text{Jacobi} \\
+        \hline
+        \input{koyretid.txt} \\
+        \hline
+      \end{tabular}
+    \end{center}
+    Me ser korleis Armadillo aukar jamnt med $n$-verdiane medan Jacobi stig eksponensielt. Med ei kubisk køyretid vil me veldig kjapt nå eit tak over kor stor matrisa vår kan 
+    vere. I programmet vårt set me ei begrensning for kor mange iterasjonar me tillet. Når matrisa vert stor nok vil denne begrensninga ikkje lengre tjene formålet då ho vil 
+    verte for stor for våre praktiske formål. Ei senkning av denne kan igjen føre til eit for lite antal iterasjoner og gå på bekostning av presisjon. Metoden i seg sjølv 
+    er difor stabil for mindre matrisar, men kan fort bli ubrukeleg for større matrisar. Fordelane med metoda er at ho er enkel å implementere og er effektiv ved 
+    parallellprogrammering. Me kjem diverre ikkje inn på dette i denne oppgåva.
+
+  \subsection{Potensialenergien til elektron med og uten Coulomb interaksjon}
+
     
 
 \end{document}
