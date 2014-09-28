@@ -120,7 +120,7 @@ if __name__ == '__main__':
     hold('off')
     show()
 
-    for i in rane(4):
+    for i in range(4):
         figure()
         wavey[i].plotFunction()
         title("Potential in ground state for omega_r = %g" % omega[i])

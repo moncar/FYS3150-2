@@ -293,20 +293,20 @@ int main(int argc, char* argv[]) {
         string name = "Errors" + to_string(n) + ".txt";
         ofstream file(name);
         if (file.is_open()) {
-            for (int i = 0; i < 3; i++) file << log10(delta_eigenval[i]) << "\n";
+            for (int i = 0; i < 3; i++) file << log10(delta_eigenval[i]) - 1 << "\n";
         }
         file.close();
 
 
     } else {
         vec omega = zeros<vec>(4);
-        omega[0] = 0.01; // rho_max ~ 300
+        omega[0] = 0.01; // rho_max ~ 50
         omega[1] = 0.5; // rho_max ~ 10
         omega[2] = 1.0; // rho_max ~ 5
         omega[3] = 5.0; // rho_max ~ 2
         vec varying_rho = zeros<vec>(4);
         // This might be overkill...
-        varying_rho[0] = 300;
+        varying_rho[0] = 50;
         varying_rho[1] = 10;
         varying_rho[2] = 5;
         varying_rho[3] = 2;

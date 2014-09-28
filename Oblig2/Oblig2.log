@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.16)  27 SEP 2014 22:09
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.16)  28 SEP 2014 15:06
 entering extended mode
  %&-line parsing enabled.
 **Oblig2.tex
@@ -521,34 +521,76 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 \openout3 = `Oblig2.toc'.
 
  [3]
-[4] [5] (./koyretid.txt) [6] [7] (./Oblig2.aux) ) 
+[4] [5] (./koyretid.txt) [6] [7]
+<omega001kort.png, id=42, 586.8324pt x 442.2924pt>
+File: omega001kort.png Graphic file (type png)
+ <use omega001kort.png>
+<omega001lang.png, id=44, 586.8324pt x 442.2924pt>
+File: omega001lang.png Graphic file (type png)
+ <use omega001lang.png>
+[8 <./omega001kort.png>] <omega05.png, id=52, 586.8324pt x 442.2924pt>
+File: omega05.png Graphic file (type png)
+
+<use omega05.png> [9 <./omega001lang.png>]
+<omega1.png, id=57, 586.8324pt x 442.2924pt>
+File: omega1.png Graphic file (type png)
+ <use omega1.png>
+<omega1to.png, id=58, 1675.2186pt x 1031.2929pt>
+File: omega1to.png Graphic file (type png)
+ <use omega1to.png>
+Overfull \hbox (41.50146pt too wide) in paragraph at lines 219--220
+ [][] 
+ []
+
+[10 <./omega05.png>] <omega1to5.png, id=63, 1675.2186pt x 1031.2929pt>
+File: omega1to5.png Graphic file (type png)
+
+<use omega1to5.png>
+Overfull \hbox (41.50146pt too wide) in paragraph at lines 224--225
+ [][] 
+ []
+
+<omega1to10.png, id=64, 1675.2186pt x 1031.2929pt>
+File: omega1to10.png Graphic file (type png)
+ <use omega1to10.png>
+Overfull \hbox (41.50146pt too wide) in paragraph at lines 229--230
+ [][] 
+ []
+
+[11 <./omega1.png> <./omega1to.png>]
+<omega5.png, id=70, 586.8324pt x 442.2924pt>
+File: omega5.png Graphic file (type png)
+ <use omega5.png> [12 <./omega1to5.png> <./omega1to10.png>] [13 <./omega5.png>]
+ (./Oblig2.aux) ) 
 Here is how much of TeX's memory you used:
- 4215 strings out of 493848
- 53633 string characters out of 1152823
- 123877 words of memory out of 3000000
- 7417 multiletter control sequences out of 15000+50000
- 24910 words of font info for 72 fonts, out of 3000000 for 9000
+ 4269 strings out of 493848
+ 54468 string characters out of 1152823
+ 124877 words of memory out of 3000000
+ 7459 multiletter control sequences out of 15000+50000
+ 25839 words of font info for 75 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 36i,15n,38p,305b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dv
-ips/cm-super/cm-super-t1.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
-10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/pub
-lic/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx100
-0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/te
-xmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/publ
-ic/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800
-.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/tex
-mf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/publi
-c/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.
-pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on Oblig2.pdf (7 pages, 294789 bytes).
+ 36i,15n,38p,428b,302s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type
+1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
+6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/
+public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx
+1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share
+/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/p
+ublic/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0
+800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/
+texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/pu
+blic/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm20
+74.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/t
+exmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on Oblig2.pdf (13 pages, 753422 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
+ 147 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

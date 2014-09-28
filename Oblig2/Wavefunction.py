@@ -116,7 +116,7 @@ if __name__ == '__main__':
     title("Potential with and without Coulomb interaction")
     xlabel("rho")
     ylabel("potential")
-    legend(("Without Coulomb interaction", "With Coulomb interaction and omega_r = 1.0"), loc=1)
+    legend(("Without Coulomb interaction", "With Coulomb interaction and omega_r = 1.0"))
     hold('off')
     show()
 

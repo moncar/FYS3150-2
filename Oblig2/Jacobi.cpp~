@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
     // This is done in the plot
     vec rho = zeros<vec>(n);
     double rho_min = 0.0;
-    double rho_max = 5.0;
+    double rho_max = 7.0;
     double h = (rho_max - rho_min)/((double) n+1);
     vec d, e;
     d = zeros<vec>(n);
@@ -293,22 +293,22 @@ int main(int argc, char* argv[]) {
         string name = "Errors" + to_string(n) + ".txt";
         ofstream file(name);
         if (file.is_open()) {
-            for (int i = 0; i < 3; i++) file << log10(delta_eigenval[i]) << "\n";
+            for (int i = 0; i < 3; i++) file << log10(delta_eigenval[i]) - 1 << "\n";
         }
         file.close();
 
 
     } else {
         vec omega = zeros<vec>(4);
-        omega[0] = 0.01; // rho_max ~ 300
+        omega[0] = 0.01; // rho_max ~ 50
         omega[1] = 0.5; // rho_max ~ 10
         omega[2] = 1.0; // rho_max ~ 5
         omega[3] = 5.0; // rho_max ~ 2
         vec varying_rho = zeros<vec>(4);
         // This might be overkill...
-        varying_rho[0] = 300;
+        varying_rho[0] = 50;
         varying_rho[1] = 10;
-        varying_rho[2] = 5;
+        varying_rho[2] = 7;
         varying_rho[3] = 2;
         for (int j = 0; j < 4; j++) {
             h = (varying_rho[j] - rho_min)/((double) n+1);

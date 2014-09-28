@@ -133,7 +133,7 @@
 
 
 \section{Resultat}
-  Denne seksjonen vil bli delt opp i fire deler. Me vil diskutere metoden i seg sjølv kor me ser på køyretid og stabilitet. % Big O, Jacobi mot 
+  Denne seksjonen vil bli delt opp i tre deler. Me vil diskutere metoden i seg sjølv kor me ser på køyretid og stabilitet. % Big O, Jacobi mot 
   % Armadillo og storleik på matrise.
   Me vil sjå på energinivåa til elektrona med, og uten, Coulomb interaksjon for forskjellige $\omega_r$ og $\rho_{\text{max}}$. Eg har valt å gjere dette 
   ved Jacobi. Dette krev at me normaliserer eigenvektorane for å få riktige verdiar. Det vil bli forklart i meir nøyaktighet. % FORKLAR!
@@ -145,9 +145,9 @@
     Mykje av grunnen til at metoda er treig kjem frå det faktum at me står i fare for å gjere eit element som er null til ikkje-null ved ein rotasjon. Me merker fort når matrisa 
     blir stor at tidbruken stig veldig kjapt. Ein samanlikning av $\texttt{eig\_sym}$ frå Armadillo og Jacobi gjer oss køyretidene i sekund i tabellen under.
     \begin{center}
-      \begin{tabular}{|l||l|l|}
+      \begin{tabular}{|l||l|l|l|}
         \hline
-        Steg & \text{Armadillo} & \text{Jacobi} \\
+        Steg & \text{Armadillo} & \text{Jacobi} & Antal iterasjonar \\
         \hline
         \input{koyretid.txt} \\
         \hline
@@ -155,12 +155,95 @@
     \end{center}
     Me ser korleis Armadillo aukar jamnt med $n$-verdiane medan Jacobi stig eksponensielt. Med ei kubisk køyretid vil me veldig kjapt nå eit tak over kor stor matrisa vår kan 
     vere. I programmet vårt set me ei begrensning for kor mange iterasjonar me tillet. Når matrisa vert stor nok vil denne begrensninga ikkje lengre tjene formålet då ho vil 
-    verte for stor for våre praktiske formål. Ei senkning av denne kan igjen føre til eit for lite antal iterasjoner og gå på bekostning av presisjon. Metoden i seg sjølv 
+    verte for stor for våre praktiske formål. Ei senkning av denne kan igjen føre til eit for lite antal iterasjoner og gå på bekostning av presisjon. Antal iterasjonar som
+    står oppførte er det antalet det tek før alle ikkje-diagonale matriseelement i praksis er null. Metoden i seg sjølv 
     er difor stabil for mindre matrisar, men kan fort bli ubrukeleg for større matrisar. Fordelane med metoda er at ho er enkel å implementere og er effektiv ved 
-    parallellprogrammering. Me kjem diverre ikkje inn på dette i denne oppgåva.
+    parallellprogrammering. Me kjem diverre ikkje inn på dette i denne oppgåva. \\
+    Alle plott er plotta for $n_{\text{step}} = 200$.
 
   \subsection{Potensialenergien til elektron med og uten Coulomb interaksjon}
+    I dette prosjektet har me rekna på potensialenergien til to elektron i ein oscillator brønn. Fyrst har me sett på eit døme uten Coulomb interaksjon. Då har me definert 
+    det harmoniske oscillator potensialet ved $V_i = \rho_i^2$. For dette dømet har me eksakte løysningar på eigenverdiane me får frå Jacobi. Dette avheng derimot av val 
+    av $n_{\text{step}}$ og $\rho_{\text{max}}$. For å få eit svar med fire siffers nøyaktighet må me inngå nokre kompromiss for $\rho_{\text{max}}$. Dette kjem me tilbake 
+    til i feilanalysa. Når me ser på potensialenergien med Coulomb interaksjon vil me får eit potensial gitt ved $V_i = \omega_r^2\rho^2 + \frac{1}{\rho}$. Her vil me fortsatt vere 
+    avhengige av $n_{\text{step}}$ og $\rho_{\text{max}}$, men me vil no i tillegg ha ein avhengighet til $\omega_r$. Valet av $\rho_{\text{max}}$ vil vere direkte knytta til 
+    $\omega_r$ Me nyttar artikkelen til M. Taut slik at me kan finne verdiar med ein eksakt løysning. Diverre vil kun nokre få av desse løysningane vere relevante for vårt formål. \\
+    Me er interesserte i $\omega_r = 0.01$, $\omega_r = 0.5$, $\omega_r = 1$ og $\omega_r = 5$. Artikkelen til M. Taut hjelper oss med to av desse. Me kan finne ei eksakt løysning 
+    for $\omega_r = 0.05$ og $\omega_r = 0.25$. Me finn då ein $\rho_{\text{max}}$ som gjer oss eksakte svar og seier at for $\omega_r = 0.01$ og $\omega_r = 0.5$ så vert det 
+    tilnærma likt. Me kjem då fram til at frekvensane $\omega_r = 0.01$ og $\omega_r = 0.5$ vil gje oss $\rho_{\text{max}} \approx 50$ og $\rho_{\text{max}} \approx 10$. Desse 
+    frekvensane tilsvarer svak Coulomb interaksjon og me vil få ``flate kurver''. For $\omega_r = 1$ vil me velje same $\rho_{\text{max}}$ som for det tidlegare potensialet. 
+    Me vil då sjå at leddet $\frac{1}{\rho}$ utgjer ein forskyvning av bølgjefunksjonen. Det gjer oss $\rho_{\text{max}} = 5$. For den siste frekvensen $\omega_r = 5$ vil me ha ein 
+    liten $\rho_{\text{max}}$ då dette utgjer ein sterk Coulomb interaksjon. Bølgjefunksjonen vil då bli bratt og kort. Me vel $\rho_{\text{max}} = 2$. % Tolkning
+    \\
+    Siden me behandlar alle verdiar som dimensjonslause er me interesserte i å plotte normaliserte eigenvektorar. Det gjer me ved formelen
+    \begin{align*}
+      \mathbf{v} = \frac{\mathbf{v}}{\sqrt{\int_{\rho_0}^{\rho_{\text{max}}}{v^2 \ d\rho}}}.
+    \end{align*}
+    Numerisk nyttar me trapesregelen for å rekne ut integralet. Alle grafane vil difor kun spenne ut eit areal på 1.
 
+    \subsubsection{Plott for $\omega_r = 0.01$.} 
+      Sjølv om den eksakte løysninga for $\omega_r = 0.05$ vil gje oss ein $\rho_{\text{max}} \approx 50$ vil me for $\omega_r = 0.01$ ha ein $\rho_{\text{max}}$ som er mykje større.  
+      For å få eit plott som ikkje blir ``trykt'' ned mot slutten på grunn av randkrava har eg plotta for $\rho_{\text{max}} = 300$ i tillegg. Diverre resulterer dette i eit lite 
+      informativt plott når me plottar for alle frekvensane i lag.
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{omega001kort.png}
+        \caption{Her har me plotta for $\rho_{\text{max}} = 50$. Me ser korleis kurva vert avkappa mot slutten grunna randkrava.}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{omega001lang.png}
+        \caption{Her har me plotta for $\rho_{\text{max}} = 300$. I dette dømet vil ikkje kurva vere begrensa av randkrava. Me kan sjå på verdiane til potensialet at kurva vil vere 
+        mykje mindre enn dei for kortare $\rho_{\text{max}}$. Dette då arealet under alle grafane vil vere 1.}
+      \end{figure}
+
+    \subsubsection{Plott for $\omega_r = 0.5$.}
+      Her vil me ha ei tilnærma løysning frå artikkelen til M. Taut. 
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{omega05.png}
+        \caption{Plott for $\rho_{\text{max}} = 10$. Me ser at kurva ikkje vert kappa av frå randkrava. Legg merke med aukninga i potensialet. Arealet vil fortsatt vere 1, men 
+        siden $\rho_{\text{max}}$ er mykje mindre enn for det forrige plottet vil verdien stige.}
+      \end{figure}
+
+    \subsubsection{Plott for $\omega_r = 1$.}
+      I dette plottet vil det vere hensiktsmessig å ha med samanlikning av det føregåande og nåværande potensialet. Dette då me vil kunne sjå ei forskyvning. Viss me auker 
+      $\frac{C}{\rho}$-leddet i potensialet med Coulomb interaksjon vil me kunne sjå ei tydeleg forskyvning.
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{omega1.png}
+        \caption{Plott for $\rho_{\text{max}} = 5$.}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=400px]{omega1to.png}
+        \caption{Her er $V_i = \omega_r^2\rho^2 + \frac{1}{\rho}$ for den grøne grafen.}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=400px]{omega1to5.png}
+        \caption{Her er $V_i = \omega_r^2\rho^2 + \frac{5}{\rho}$ for den grøne grafen.}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=400px]{omega1to10.png}
+        \caption{Her er $V_i = \omega_r^2\rho^2 + \frac{10}{\rho}$ for den grøne grafen.}
+      \end{figure}
+
+    \subsubsection{Plott for $\omega_r = 5$}
+      Den siste frekvensen vil gje oss ein bratt, men kort graf. Me får eit kraftig potensial for elektron i nærleiken av einannan. Her har me $\rho_{\text{max}} = 2$.
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{omega5.png}
+        \caption{Plott for $\rho_{\text{max}} = 2$ gjer oss ei kurve med eit stort potensial.}
+      \end{figure}
+
+
+
+
+  \subsection{Feilanalyse}
     
+
+
 
 \end{document}
