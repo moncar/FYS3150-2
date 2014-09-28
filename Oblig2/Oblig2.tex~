@@ -42,17 +42,17 @@
 \newpage
 
 \section{Introduksjon}
-  I dette prosjektet er me interesserte i å løyse Schrödinger likninga for to elektron. Likninga er skrive om slik at me kan jobbe med eit ein-lekam problem 
-  istadenfor to. Me nyttar lineær algebra for å løyse differensiallikningane som eit sett med lineær likningar. Måten me gjer dette på er ved Jacobirotasjon 
+  I dette prosjektet er me interesserte i å løyse Schrödinger likninga for to elektron. Likninga er skrive om slik at me kan jobbe med eit eit-lekam problem.
+  Me nyttar lineær algebra for å løyse differensiallikningane som eit sett med lineære likningar. Måten me gjer dette på er ved Jacobirotasjon 
   for å finne eigenvektorar og eigenverdiar. Til slutt vil me plotte bølgjefunksjonen for grunntilstanden til elektrona ved hjelp av eigenvektorane og 
   eigenverdiane.
 
 
 \section{Jacobirotasjon}
-  For å løyse eigenverdi- og eigenvektorproblem vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke similaritetsformasjonar, vil 
+  For å løyse eigenverdi- og eigenvektorproblema vil me nytte Jacobirotasjon. Dette er ein algoritme som, etter ein rekke similaritetsformasjonar, vil 
   gjere alle ikkje-diagonale matriseelement til null. Denne algoritmen er likevel ikkje ein veldig effektiv algoritme då me ved ein rotasjon kan kome 
   i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
-  tida teste verdiane mot ein toleranse.
+  tida teste verdiane mot ein toleranse for å sjå om dei er nære nok null.
 
   % Det er kanskje ein idè å splitte algoritme framstillinga i ein numerisk og ein analytisk del?
   \subsection{Algoritma}
@@ -76,7 +76,7 @@
       b_{ll} &= a_{ll}\cos^2{\theta} + 2a_{kl}\cos{\theta}\sin{\theta} + a_{kk}\sin^2{\theta} \\
       b_{kl} &= (a_{kk} - a_{ll})\cos{\theta}\sin{\theta} + a_{kl}(\cos^2{\theta} - \sin^2{\theta}).
     \end{align*}
-    Me vil no velje $\theta$ slik at alle ikkje-diagonale element $b_{kl}$ i praksis vert null. For kvar iterasjon vil me då teste om summen av alle 
+    Me vil no velje $\theta$ slik at alle ikkje-diagonale element $b_{kl}$ i praksis vert null. For kvar iterasjon bør me i teorien teste om alle
     dei ikkje-diagonale elementa er mindre enn ein toleranse $\epsilon$. Me vil derimot ikkje gjer dette då det er ein tidkrevande prosess. 
     Erstatninga vert då å sjå om det største elementet blant dei ikkje-diagonale elementa er mindre enn $\epsilon$. Dette vil då vere
     \begin{align*}
@@ -108,20 +108,28 @@
     \end{align*}
     For å unngå avrungdingsfeil ved $\tau >> 0$ gonger me andregradslikninga med den konjugerte. Det vil gje oss
     \begin{align*}
-      t &= \left( -\tau \pm \sqrt{1 + \tau^2} \right)\left( \frac{-\tau \pm \sqrt{1 + \tau^2}}{-\tau \pm \sqrt{1 + \tau^2}} \right) \\
+      t &= \left( -\tau \pm \sqrt{1 + \tau^2} \right)\left( \frac{\tau \pm \sqrt{1 + \tau^2}}{\tau \pm \sqrt{1 + \tau^2}} \right) \\
       &= \frac{-\tau^2 + (1 + \tau^2)}{\tau \pm \sqrt{1 + \tau^2}} = \frac{1}{\tau \pm \sqrt{1 + \tau^2}},
     \end{align*}
     som gjer oss
     \begin{align*}
-      t = \frac{1}{\tau \pm \sqrt{1 + \tau^2}} \qquad \lor \qquad t = \frac{-1}{-\tau + \sqrt{1 + \tau^2}}.
+      t = \frac{1}{\tau \pm \sqrt{1 + \tau^2}} \qquad \lor \qquad t = \frac{1}{\tau - \sqrt{1 + \tau^2}}.
     \end{align*}
     Me vil no velje den minste av røttene $t$ slik at $c$ og $s$ henholdsvis går mot ein og null ved
     \begin{align*}
       c = \frac{1}{\sqrt{1 + t^2}}, \qquad s = tc.
     \end{align*}
+    Det gjer me ved å teste verdien av $\tau$. For $\tau > 0$ vil me velje 
+    \begin{align*}
+      t = \frac{1}{\tau + \sqrt{1 + \tau^2}}.
+    \end{align*}
+    For $\tau \leq 0$ vil me velje
+    \begin{align*}
+      t = \frac{1}{\tau - \sqrt{1 + \tau^2}}.
+    \end{align*}
     Då vil me kunne begrense vinkelen $\theta \leq \frac{\pi}{4}$ slik at differansen mellom matrisa $B$ og $A$ vert så liten som mogleg ved formelen
     \begin{align*}
-      \lvert B - A \rvert_F^2 = 4\underbrace{(1 - c)}_{= 0 \text{ for } c \to 1}\sum_{i = 1, i\ne k, l}^n(a_{ik}^2 + a_{il}^2) + \frac{2a_{kl}^2}{c^2}.
+      \lvert\lvert B - A \rvert\rvert_F^2 = 4\underbrace{(1 - c)}_{= 0 \text{ for } c \to 1}\sum_{i = 1, i\ne k, l}^n(a_{ik}^2 + a_{il}^2) + \frac{2a_{kl}^2}{c^2}.
     \end{align*}
     Me vil fortsette desse operasjonane heilt til $\text{max}(a_{ij})^2 \leq \epsilon$ for $i \ne j$.
 
@@ -140,7 +148,7 @@
   Til slutt har eg lagt ved ein feilanalyse på eigenverdiane som funksjon av $n_{\text{step}}$.
 
   \subsection{Jacobi}
-    Jacobirotasjon er ein reknetung algoritme. Denne metoda bryt veldig kjapt ned når ein lager ei stor matrise. For vårt formål er difor 
+    Jacobirotasjon er ein reknetung algoritme. Denne metoda bryt veldig kjapt ned når ein lager ei stor matrise. For vårt formål er det difor 
     essensielt at me uttnyttar peikar- og referansemoglegheitane i C++ for å unngå unødvendig tidbruk på lagring. Køyretida til metoden går som $\mathcal{O}(n^3)$ for rotasjon. 
     Mykje av grunnen til at metoda er treig kjem frå det faktum at me står i fare for å gjere eit element som er null til ikkje-null ved ein rotasjon. Me merker fort når matrisa 
     blir stor at tidbruken stig veldig kjapt. Ein samanlikning av $\texttt{eig\_sym}$ frå Armadillo og Jacobi gjer oss køyretidene i sekund i tabellen under.
@@ -159,17 +167,17 @@
     står oppførte er det antalet det tek før alle ikkje-diagonale matriseelement i praksis er null. Metoden i seg sjølv 
     er difor stabil for mindre matrisar, men kan fort bli ubrukeleg for større matrisar. Fordelane med metoda er at ho er enkel å implementere og er effektiv ved 
     parallellprogrammering. Me kjem diverre ikkje inn på dette i denne oppgåva. \\
-    Alle plott er plotta for $n_{\text{step}} = 200$.
 
   \subsection{Potensialenergien til elektron med og uten Coulomb interaksjon}
     I dette prosjektet har me rekna på potensialenergien til to elektron i ein oscillator brønn. Fyrst har me sett på eit døme uten Coulomb interaksjon. Då har me definert 
     det harmoniske oscillator potensialet ved $V_i = \rho_i^2$. For dette dømet har me eksakte løysningar på eigenverdiane me får frå Jacobi. Dette avheng derimot av val 
     av $n_{\text{step}}$ og $\rho_{\text{max}}$. For å få eit svar med fire siffers nøyaktighet må me inngå nokre kompromiss for $\rho_{\text{max}}$. Dette kjem me tilbake 
-    til i feilanalysa. Når me ser på potensialenergien med Coulomb interaksjon vil me får eit potensial gitt ved $V_i = \omega_r^2\rho^2 + \frac{1}{\rho}$. Her vil me fortsatt vere 
+    til i feilanalysa. Når me ser på potensialenergien med Coulomb interaksjon vil me få eit potensial gitt ved $V_i = \omega_r^2\rho^2 + \frac{1}{\rho}$. Her vil me fortsatt vere 
     avhengige av $n_{\text{step}}$ og $\rho_{\text{max}}$, men me vil no i tillegg ha ein avhengighet til $\omega_r$. Valet av $\rho_{\text{max}}$ vil vere direkte knytta til 
-    $\omega_r$ Me nyttar artikkelen til M. Taut slik at me kan finne verdiar med ein eksakt løysning. Diverre vil kun nokre få av desse løysningane vere relevante for vårt formål. \\
+    $\omega_r$. Me nyttar artikkelen til M. Taut slik at me kan finne verdiar med ein eksakt løysning. Diverre vil kun nokre få av desse løysningane vere relevante for vårt formål. i
+    \\ \\
     Me er interesserte i $\omega_r = 0.01$, $\omega_r = 0.5$, $\omega_r = 1$ og $\omega_r = 5$. Artikkelen til M. Taut hjelper oss med to av desse. Me kan finne ei eksakt løysning 
-    for $\omega_r = 0.05$ og $\omega_r = 0.25$. Me finn då ein $\rho_{\text{max}}$ som gjer oss eksakte svar og seier at for $\omega_r = 0.01$ og $\omega_r = 0.5$ så vert det 
+    for $\omega_r = 0.05$ og $\omega_r = 0.25$. Me finn då ein $\rho_{\text{max}}$ som gjer oss eksakte svar. Me tolkar difor at for $\omega_r = 0.01$ og $\omega_r = 0.5$ så vert det 
     tilnærma likt. Me kjem då fram til at frekvensane $\omega_r = 0.01$ og $\omega_r = 0.5$ vil gje oss $\rho_{\text{max}} \approx 50$ og $\rho_{\text{max}} \approx 10$. Desse 
     frekvensane tilsvarer svak Coulomb interaksjon og me vil få ``flate kurver''. For $\omega_r = 1$ vil me velje same $\rho_{\text{max}}$ som for det tidlegare potensialet. 
     Me vil då sjå at leddet $\frac{1}{\rho}$ utgjer ein forskyvning av bølgjefunksjonen. Det gjer oss $\rho_{\text{max}} = 5$. For den siste frekvensen $\omega_r = 5$ vil me ha ein 
@@ -179,7 +187,8 @@
     \begin{align*}
       \mathbf{v} = \frac{\mathbf{v}}{\sqrt{\int_{\rho_0}^{\rho_{\text{max}}}{v^2 \ d\rho}}}.
     \end{align*}
-    Numerisk nyttar me trapesregelen for å rekne ut integralet. Alle grafane vil difor kun spenne ut eit areal på 1.
+    Numerisk nyttar me trapesregelen for å rekne ut integralet. Alle grafane vil difor kun spenne ut eit areal på 1. \\ \\
+    Alle plott er plotta for $n_{\text{step}} = 200$.
 
     \subsubsection{Plott for $\omega_r = 0.01$.} 
       Sjølv om den eksakte løysninga for $\omega_r = 0.05$ vil gje oss ein $\rho_{\text{max}} \approx 50$ vil me for $\omega_r = 0.01$ ha ein $\rho_{\text{max}}$ som er mykje større.  
@@ -242,7 +251,7 @@
 
 
   \subsection{Feilanalyse}
-    Eg valt å inkludere ei lita feilanalyse for å få eit overblikk over kor lang tid det tek før Jacobis metode gjer oss fire siffers nøyaktighet (merk at det er her snakk om 
+    Eg har valt å inkludere ei lita feilanalyse for å få eit overblikk over kor lang tid det tek før Jacobis metode gjer oss fire siffers nøyaktighet (merk at det er her snakk om 
     siffer og ikkje desimal) på dei tre fyrste eigenverdiane. Diverre er ikkje dette eit enkelt svar då det avhenger av valet vårt av $\rho_{\text{max}}$. Eg har her 
     plotta $\log_{10}$ av differansen mellom den eksakte og den numeriske løsyninga (og trukket frå ein då $\log_{10}$ vil gje oss antal desimalar) mot $n_{step}$.
     
@@ -288,7 +297,7 @@
         \caption{Gradvis stig feilen igjen.}
       \end{figure}
 
-    For $\rho_{\text{max}} = 5$ får me dei verdiane me ynskjer. For den fyrste eigenverdien klarer me nesten å få fem siffers nøyaktighet. Viss me minkar eller minkar 
+    For $\rho_{\text{max}} = 5$ får me dei verdiane me ynskjer. For den fyrste eigenverdien klarer me nesten å få fem siffers nøyaktighet. Viss me minkar eller aukar 
     $\rho_{\text{max}}$ vil feilen stige igjen.
 
 \end{document}
