@@ -242,8 +242,53 @@
 
 
   \subsection{Feilanalyse}
+    Eg valt å inkludere ei lita feilanalyse for å få eit overblikk over kor lang tid det tek før Jacobis metode gjer oss fire siffers nøyaktighet (merk at det er her snakk om 
+    siffer og ikkje desimal) på dei tre fyrste eigenverdiane. Diverre er ikkje dette eit enkelt svar då det avhenger av valet vårt av $\rho_{\text{max}}$. Eg har her 
+    plotta $\log_{10}$ av differansen mellom den eksakte og den numeriske løsyninga (og trukket frå ein då $\log_{10}$ vil gje oss antal desimalar) mot $n_{step}$.
     
+    \subsubsection{Plott for $\rho_{\text{max}} = 2$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil2.png}
+        \caption{Uttrykket me jobber med for potensialet er berekna for store verdiar av $\rho_{\text{max}}$. Me får difor store feil for dei eksakte eigenverdiane.}
+      \end{figure}
 
+    \subsubsection{Plott for $\rho_{\text{max}} = 3$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil3.png}
+        \caption{Her har me mykje den same problematikken. Metoden vil sikte seg inn mot feil eigenverdi.}
+      \end{figure}
 
+    \subsubsection{Plott for $\rho_{\text{max}} = 4$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil4.png}
+        \caption{Her byrjar metoden å fungere som han skal.}
+      \end{figure}
+
+    \subsubsection{Plott for $\rho_{\text{max}} = 5$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil5.png}
+        \caption{For $\rho_{\text{max}} = 5$ får me oppførselen me vil ha.}
+      \end{figure}
+
+    \subsubsection{Plott for $\rho_{\text{max}} = 7$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil7.png}
+        \caption{Her kan me sjå korleis feilen byrjar å stige igjen.}
+      \end{figure}
+
+    \subsubsection{Plott for $\rho_{\text{max}} = 10$}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=300px]{feil10.png}
+        \caption{Gradvis stig feilen igjen.}
+      \end{figure}
+
+    For $\rho_{\text{max}} = 5$ får me dei verdiane me ynskjer. For den fyrste eigenverdien klarer me nesten å få fem siffers nøyaktighet. Viss me minkar eller minkar 
+    $\rho_{\text{max}}$ vil feilen stige igjen.
 
 \end{document}

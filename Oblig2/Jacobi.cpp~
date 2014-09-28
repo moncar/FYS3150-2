@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
     // This is done in the plot
     vec rho = zeros<vec>(n);
     double rho_min = 0.0;
-    double rho_max = 7.0;
+    double rho_max = 10.0;
     double h = (rho_max - rho_min)/((double) n+1);
     vec d, e;
     d = zeros<vec>(n);
@@ -308,7 +308,7 @@ int main(int argc, char* argv[]) {
         // This might be overkill...
         varying_rho[0] = 50;
         varying_rho[1] = 10;
-        varying_rho[2] = 7;
+        varying_rho[2] = 5;
         varying_rho[3] = 2;
         for (int j = 0; j < 4; j++) {
             h = (varying_rho[j] - rho_min)/((double) n+1);

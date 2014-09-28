@@ -1,5 +1,5 @@
 from numpy import zeros
-from matplotlib.pylab import plot, hold, title, xlabel, ylabel, show
+from matplotlib.pylab import plot, hold, title, xlabel, ylabel, show, legend
 import os
 
 class Error:
@@ -44,5 +44,6 @@ if __name__ == '__main__':
     ylabel('error(n_step)')
     plot(n, eigenvalues[:, 1])
     plot(n, eigenvalues[:, 2])
+    legend(("lambda1", "lambda2", "lambda3"), loc=1)
     hold('off')
     show()
