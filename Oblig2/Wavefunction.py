@@ -3,8 +3,15 @@ from numpy import zeros, linalg, array, dot, sqrt
 from unittest import TestCase, main
 import os
 
+"""
+A test class inheriting from unittest.
+The class tests the different methods in the class Wavefunction to.
+"""
 class TestWavefunction(TestCase):
 
+    """
+    Creating a test file corresponding to the ones we make in Jacobi.cpp
+    """
     def setUp(self):
         self.eigenTemp = zeros((10, 10))
         filename = open("TESTFILE.txt", "w")
@@ -18,6 +25,9 @@ class TestWavefunction(TestCase):
         filename.close()
         self.Wave = Wavefunction("TESTFILE.txt", 10)
 
+    """
+    Checking that the values from the file are read correctly with proper values.
+    """
     def test_findValues(self):
         omega, omega_i, rho, eigenvectors, eigenvalues = self.Wave.findValues()
         self.assertEqual(omega, 1.0)
@@ -27,12 +37,23 @@ class TestWavefunction(TestCase):
         self.assertEqual(linalg.norm(eigenvalues), linalg.norm(5*array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])))
 
 
+"""
+Class reading values sent out from Jacobi.cpp and plotting them.
+The class also normalizes the eigenvectors.
+"""
 class Wavefunction:
 
+    """
+    Constructor storing the name of the file and n.
+    """
     def __init__(self, solutions, n):
         self.solutions = solutions
         self.n = n
 
+    """
+    Method reading written by Jacobi.cpp
+    Storing the values in matrices, arrays and variables.
+    """
     def findValues(self):
         self.eigenvalues = zeros(self.n)
         self.eigenvectors = zeros((self.n+2, self.n+2))
@@ -60,13 +81,14 @@ class Wavefunction:
         filename.close()
 
         # Adding the boundary conditions
-        # Should be five, but due to numerical roundoff in the filewriting and reading
-        # it doesnt get enough significants to solve this
         self.rho[self.n] = self.rho_min + (self.n+1)*self.h
         self.rho[self.n+1] = self.rho_min + (self.n+2)*self.h
 
         return self.omega, self.omega_iteration, self.rho, self.eigenvectors, self.eigenvalues
 
+    """
+    Method implementing trapezoidal integration.
+    """
     def trapezoidal(self, v):
         s = 0
         for i in range(self.n+1):
@@ -74,16 +96,33 @@ class Wavefunction:
         return (self.h/2.0)*s
 
     
+    """
+    Method normalizing all the eigenvectors.
+    The area under the graphs will for all be 1.
+    """
     def normalize(self):
         for i in range(self.n+2):
             self.eigenvectors[:, i] = self.eigenvectors[:, i]/float(sqrt(self.trapezoidal(self.eigenvectors[:, i]**2)) + 1.0e-10)
 
         
 
+    """
+    Plotting the probability distribution, the wavefunction squared.
+    """
     def plotFunction(self):
         plot(self.rho, self.eigenvectors[:, 0]**2)
 
+    """
+    Plotting the probability distribution of the different excited states.
+    """
+    def plotDifferentStates(self):
+        plot(self.rho, self.eigenvectors[:, 0]**2)
+        hold('on')
+        plot(self.rho, self.eigenvectors[:, 1]**2)
+        plot(self.rho, self.eigenvectors[:, 2]**2)
+        hold('off')
 
+# Running everything from this Python program.
 if __name__ == '__main__':
 
     n = 200
@@ -122,10 +161,11 @@ if __name__ == '__main__':
 
     for i in range(4):
         figure()
-        wavey[i].plotFunction()
-        title("Potential in ground state for omega_r = %g" % omega[i])
+        wavey[i].plotDifferentStates()
+        title("Potential for different states for omega_r = %g" % omega[i])
         xlabel("rho")
         ylabel("potential")
+        legend(("lambda0", "lambda1", "lambda2"), loc=1)
         show()
 
     print "\n\nRunning Python tests"

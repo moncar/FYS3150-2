@@ -2,11 +2,20 @@ from numpy import zeros
 from matplotlib.pylab import plot, hold, title, xlabel, ylabel, show, legend
 import os
 
+"""
+Class for plotting the errors of the eigenvalues.
+"""
 class Error:
 
+    """
+    Constructor storing the filename.
+    """
     def __init__(self, errors):
         self.errors = errors
 
+    """
+    Reading from file.
+    """
     def readFile(self):
         self.delta_lambda = zeros(3)
 
@@ -44,6 +53,6 @@ if __name__ == '__main__':
     ylabel('error(n_step)')
     plot(n, eigenvalues[:, 1])
     plot(n, eigenvalues[:, 2])
-    legend(())
+    legend(("lambda1", "lambda2", "lambda3"), loc=1)
     hold('off')
     show()

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.16)  28 SEP 2014 23:36
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.16)  29 SEP 2014 10:43
 entering extended mode
  %&-line parsing enabled.
 **Oblig2.tex
@@ -574,32 +574,35 @@ Overfull \hbox (41.50146pt too wide) in paragraph at lines 238--239
 [11 <./omega1.png> <./omega1to.png>]
 <omega5.png, id=70, 586.8324pt x 442.2924pt>
 File: omega5.png Graphic file (type png)
- <use omega5.png> [12 <./omega1to5.png> <./omega1to10.png>] <feil2.png, id=76, 
+ <use omega5.png> [12 <./omega1to5.png> <./omega1to10.png>] <total.png, id=76, 
 586.8324pt x 442.2924pt>
-File: feil2.png Graphic file (type png)
+File: total.png Graphic file (type png)
 
-<use feil2.png> [13 <./omega5.png>]
-<feil3.png, id=82, 586.8324pt x 442.2924pt>
+<use total.png> [13 <./omega5.png>]
+<feil2.png, id=82, 586.8324pt x 442.2924pt>
+File: feil2.png Graphic file (type png)
+ <use feil2.png> [14 <./total.png>]
+<feil3.png, id=87, 586.8324pt x 442.2924pt>
 File: feil3.png Graphic file (type png)
- <use feil3.png> [14 <./feil2.png>]
-<feil4.png, id=88, 586.8324pt x 442.2924pt>
+ <use feil3.png> [15 <./feil2.png>]
+<feil4.png, id=93, 586.8324pt x 442.2924pt>
 File: feil4.png Graphic file (type png)
  <use feil4.png>
-<feil5.png, id=89, 586.8324pt x 442.2924pt>
+<feil5.png, id=94, 586.8324pt x 442.2924pt>
 File: feil5.png Graphic file (type png)
- <use feil5.png> [15 <./feil3.png> <./feil4.png>] <feil7.png, id=95, 586.8324pt
- x 442.2924pt>
+ <use feil5.png> [16 <./feil3.png> <./feil4.png>] <feil7.png, id=100, 586.8324p
+t x 442.2924pt>
 File: feil7.png Graphic file (type png)
  <use feil7.png>
-<feil10.png, id=96, 586.8324pt x 442.2924pt>
+<feil10.png, id=101, 586.8324pt x 442.2924pt>
 File: feil10.png Graphic file (type png)
- <use feil10.png> [16 <./feil5.png> <./feil7.png>] [17 <./feil10.png>] (./Oblig
+ <use feil10.png> [17 <./feil5.png> <./feil7.png>] [18 <./feil10.png>] (./Oblig
 2.aux) ) 
 Here is how much of TeX's memory you used:
- 4303 strings out of 493848
- 54899 string characters out of 1152823
+ 4308 strings out of 493848
+ 54963 string characters out of 1152823
  125877 words of memory out of 3000000
- 7485 multiletter control sequences out of 15000+50000
+ 7489 multiletter control sequences out of 15000+50000
  27396 words of font info for 77 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  36i,15n,38p,428b,304s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -622,9 +625,9 @@ uper/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></
 usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></usr/share/texmf/font
 s/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-su
 per/sftt1095.pfb>
-Output written on Oblig2.pdf (17 pages, 991742 bytes).
+Output written on Oblig2.pdf (18 pages, 1181361 bytes).
 PDF statistics:
- 175 PDF objects out of 1000 (max. 8388607)
+ 180 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
 

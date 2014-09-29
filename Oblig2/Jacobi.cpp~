@@ -10,12 +10,18 @@ using namespace std;
 using namespace arma;
 using namespace chrono;
 
+/*
+ * Class implementing Jacobis method.
+ * The class uses pointers and references to optimize for speed.
+ */
 class Jacobi {
     public:
 
+        /*
+         * Method finding the max off-diagonal element in the matrix A.
+         */
         double maxoffdiag(mat* A, int* k, int* l, int n) {
             double max = 0.0;
-            // Does this method locate only values below the diagonal?
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
                     double temp = fabs((*A)(i, j));
@@ -29,6 +35,12 @@ class Jacobi {
             return max;
         }
 
+        /*
+         * Method rotating the matrix A and changing the elements.
+         * Our target is to make all off-diagonal elements zeros.
+         * The method also calculates the eigenvectors and stores them in
+         * the matrix R.
+         */
         void rotate(mat* A, mat* R, int k, int l, int n) {
             double s, c;
             double t, tau;
@@ -54,7 +66,7 @@ class Jacobi {
             (*A)(k, l) = 0.0;
             (*A)(l, k) = 0.0;
 
-            // change the remaining elements
+            // Changing the remaining elements
             for (int i = 0; i < n; i++) {
                 if (i != k && i != l) {
                     a_ik = (*A)(i, k);
@@ -71,6 +83,9 @@ class Jacobi {
             }
         } 
 
+        /*
+         * Method handling all the operations needed to find the eigenvalues and eigenvectors.
+         */
         void runJacobi(mat* A, mat* R, int n) {
             int k, l;
             double max_offdiag = maxoffdiag(A, &k, &l, n);
@@ -87,6 +102,10 @@ class Jacobi {
         }
 };
 
+
+/*
+ * SUITE for storing all TEST-functions.
+ */
 SUITE(TestJacobi) {
 
     /*
@@ -136,7 +155,7 @@ SUITE(TestJacobi) {
         mat A;
 
         A << 1 << -1 << 3 << endr
-          << -1 << 3 << -1 << endr
+          << -1 << 2 << -1 << endr
           << 0 << -1 << 2 << endr;
 
         Jacobi maxoff;
@@ -184,7 +203,10 @@ SUITE(TestJacobi) {
     }
 }
 
-void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
+/*
+ * Method for running Jacobis method.
+ */
+void Schrodinger(mat* A, mat* R, int n, bool optn) {
 
     Jacobi jacobi;
 
@@ -195,6 +217,7 @@ void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
         // Used in Armadillo solver
         B = *A;
 
+        // Starting clock
         auto start2 = high_resolution_clock::now();
         eig_sym(eigval, eigvec, B);
         auto finish2 = high_resolution_clock::now();
@@ -215,8 +238,13 @@ void Schrodinger(vec* V, mat* A, mat* R, int n, bool optn) {
 }
 
 
+/*
+ * Main-method requiring command-line arguments.
+ * Running the different assigned tasks.
+ */
 int main(int argc, char* argv[]) {
 
+    // Checking if there are enough command-line arguments.
     if (argc < 3) {
         cout << "Usage: " << argv[0] << " (int) n (Potential from a) 0/1 (Potential from c)" << endl;
         exit(1);
@@ -225,11 +253,9 @@ int main(int argc, char* argv[]) {
     int n = atoi(argv[1]);
     mat A, R;
 
-    // Should the endpoints be fixed to zero?
-    // This is done in the plot
     vec rho = zeros<vec>(n);
     double rho_min = 0.0;
-    double rho_max = 10.0;
+    double rho_max = 5.0;
     double h = (rho_max - rho_min)/((double) n+1);
     vec d, e;
     d = zeros<vec>(n);
@@ -251,6 +277,7 @@ int main(int argc, char* argv[]) {
 
     vec V = zeros<vec>(n);
 
+    // Running Jacobi for the first potential.
     if (atoi(argv[2]) == 0) {
         for (int i = 0; i < n; i++) {
             rho[i] = rho_min + (i+1)*h;
@@ -259,7 +286,7 @@ int main(int argc, char* argv[]) {
         }
 
         A.diag() = diag;
-        Schrodinger(&V, &A, &R, n, true);
+        Schrodinger(&A, &R, n, true);
 
         vec eigenvalues = zeros<vec>(n);
         map<double, int> eigenMap;
@@ -298,15 +325,17 @@ int main(int argc, char* argv[]) {
         file.close();
 
 
+    // Running Jacobi for the potential with Coulomb interaction.
     } else {
         vec omega = zeros<vec>(4);
-        omega[0] = 0.01; // rho_max ~ 50
+
+        omega[0] = 0.01; // rho_max ~ 300
         omega[1] = 0.5; // rho_max ~ 10
         omega[2] = 1.0; // rho_max ~ 5
         omega[3] = 5.0; // rho_max ~ 2
+
         vec varying_rho = zeros<vec>(4);
-        // This might be overkill...
-        varying_rho[0] = 50;
+        varying_rho[0] = 300;
         varying_rho[1] = 10;
         varying_rho[2] = 5;
         varying_rho[3] = 2;
@@ -322,7 +351,7 @@ int main(int argc, char* argv[]) {
             mat A_temp = A; // Eigenvalues
             mat R_temp = R; // Eigenvectors
             vec V_temp = V;
-            Schrodinger(&V_temp, &A_temp, &R_temp, n, false);
+            Schrodinger(&A_temp, &R_temp, n, false);
 
             // The eigenvectors and eigenvalues are sorted together
             // We must sort the eigenvectors according to the eigenvalues
@@ -350,10 +379,8 @@ int main(int argc, char* argv[]) {
             } else cout << "Unable to write to file." << endl;
         }
     }
-    /*
-     * UnitTests for the class Jacobi
+
     cout << "\n\nRunning C++ tests" << endl;
     return UnitTest::RunAllTests();
-    */
 }
 

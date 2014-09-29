@@ -2,11 +2,20 @@ from numpy import zeros
 from matplotlib.pylab import plot, hold, title, xlabel, ylabel, show, legend
 import os
 
+"""
+Class for plotting the errors of the eigenvalues.
+"""
 class Error:
 
+    """
+    Constructor storing the filename.
+    """
     def __init__(self, errors):
         self.errors = errors
 
+    """
+    Reading from file.
+    """
     def readFile(self):
         self.delta_lambda = zeros(3)
 
@@ -19,6 +28,7 @@ class Error:
 
         filename.close()
 
+# Running Jacobi.cpp and sending the output files to class.
 if __name__ == '__main__':
     n = zeros(8)
     eigenvalues = zeros((8, 3))
