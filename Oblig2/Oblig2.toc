@@ -7,7 +7,7 @@
 \contentsline {subsection}{\numberline {3.1}Jacobi}{6}
 \contentsline {subsection}{\numberline {3.2}Potensialenergien til elektron med og uten Coulomb interaksjon}{7}
 \contentsline {subsubsection}{\numberline {3.2.1}Plott for $\omega _r = 0.01$.}{8}
-\contentsline {subsubsection}{\numberline {3.2.2}Plott for $\omega _r = 0.5$.}{9}
+\contentsline {subsubsection}{\numberline {3.2.2}Plott for $\omega _r = 0.5$.}{10}
 \contentsline {subsubsection}{\numberline {3.2.3}Plott for $\omega _r = 1$.}{10}
 \contentsline {subsubsection}{\numberline {3.2.4}Plott for $\omega _r = 5$}{13}
 \contentsline {subsubsection}{\numberline {3.2.5}Totalt}{13}

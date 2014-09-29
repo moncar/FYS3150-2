@@ -31,10 +31,21 @@
 
 \maketitle
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=300px]{thesis_defense.png}
+  \caption{xkcd.com/1404/}
+\end{figure}
+
 \newpage
 \begin{abstract}
-  Skriv eit samandrag av prosjektet her oppe. \\
-  \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig2}
+  Me har sett på Schrödinger likninga for å finne potensialet til to elektron i ein harmonisk oscillator brønn. Oppgåven har stort sett gått ut på å løyse 
+  eit eigenverdi og eigenvektor problem for ein andreordens differensiallikning. Me har nytta Jacobirotasjon til å finne eigenverdiane og eigenvektorane. 
+  Desse har me brukt til å plotte bølgjefunksjonen mot avstanden $\rho$. Me har sett på skjelnaden i potensialet for to elektron med og uten Coulomb interaksjon for 
+  forskjellige frekvensar. Me har kun sett på bølgjefunksjonen for grunntilstanden og dei to fyrste eksiterte tilstandane. Til slutt har me ei feilanalyse over eigenverdiane 
+  me får frå Jacobi. All kjeldekode ligg på github. \\ \\
+  God lesning! \\ \\
+  \texttt{https://github.com/Schoyen/FYS3150/tree/master/Oblig2/src}
 \end{abstract}
 
 \newpage
@@ -54,8 +65,7 @@
   i skade for å gjere eit element som tidligare var null til å bli ikkje-null. Numerisk kan det og ta lang tid før elementa vert null. Me vil difor heile 
   tida teste verdiane mot ein toleranse for å sjå om dei er nære nok null.
 
-  % Det er kanskje ein idè å splitte algoritme framstillinga i ein numerisk og ein analytisk del?
-  \subsection{Algoritma}
+\subsection{Algoritma}
     Ein similaritetstransformasjon er gitt ved 
     \begin{align*}
       B = S^TAS
@@ -134,9 +144,7 @@
     Me vil fortsette desse operasjonane heilt til $\text{max}(a_{ij})^2 \leq \epsilon$ for $i \ne j$.
 
   \subsection{Implementering}
-    Algoritma vert implementert i ein klasse med tre metodar som løyser eigenverdi og eigenvektor problemet.
-    % Vert det nødvendig med pseudokode?
-    % Ta med implementeringa av eigenvektorproblemet.
+    Algoritma vert implementert i ein klasse med tre metodar som løyser eigenverdi og eigenvektor problemet. Denne implementasjonen er kommentert i programmet.
 
 
 
