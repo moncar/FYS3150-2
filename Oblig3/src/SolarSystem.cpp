@@ -1,10 +1,8 @@
 # include <iostream>
 # include <fstream>
-# include <armadillo>
 # include <cmath>
 
 using namespace std;
-using namespace arma;
 
 class SolarSystem {
 
