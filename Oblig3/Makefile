@@ -9,7 +9,7 @@ run:
 run/Planet: src/Planet.cpp $(DEPS) | run
 	$(CXX) $(CPPFLAGS) $< -o $@
 
-run/SolarSystem: src/SolarSystem.cpp $(DEPS) | run
+run/SolarSystem: src/SolarSystem.cpp src/PlanetList.h $(DEPS) | run
 	$(CXX) $(CPPFLAGS) $< -o $@
 
 run/vec3: src/vec3.cpp $(DEPS) | run

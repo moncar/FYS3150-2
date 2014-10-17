@@ -2,6 +2,7 @@
 # ifndef __PLANET_H_INCLUDED__
 # define __PLANET_H_INCLUDED__
 # include <iostream>
+# include <fstream>
 
 class vec3;
 
@@ -17,6 +18,7 @@ class Planet {
 		vec3 *a; // Current acceleration of planet.
         // The force should probably be calculated in the SolarSystem-class due to overview.
 		vec3 *F; // Current force on planet.
+        std::ofstream file;
 
         Planet *next;
         Planet *temp;

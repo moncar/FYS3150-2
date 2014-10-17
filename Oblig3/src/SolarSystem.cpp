@@ -16,16 +16,16 @@ class SolarSystem {
         PlanetList planets;
 
         // Constructor creating and adding all the parameters needed.
-        SolarSystem(int NOP, int timestep, int t) {
+        SolarSystem(int NOP, PlanetList p, int delta, int t) {
             numberOfPlanets = NOP;
-            planets = :
-            dt = timestep;
+            planets = p; 
+            dt = delta;
             time = t;
         }
 
         void verlet() {
 
-            vec newPosition;
+            vec3 newPosition;
             vec files = zeros<ofstream>(numberOfPlanets); // This might also be wrong.
 
             // First iteration.
