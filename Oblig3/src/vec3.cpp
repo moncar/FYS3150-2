@@ -105,8 +105,4 @@ ostream& operator<<(ostream &stream, vec3 &vec) {
 
 }
 
-int main() {
-
-    return 0;
-
-}
+int main() {return 0;}

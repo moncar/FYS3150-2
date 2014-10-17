@@ -1,4 +1,6 @@
 # pragma once
+# ifndef __VEC3_H_INCLUDED__
+# define __VEC3_H_INCLUDED__
 # include <iostream>
 
 using namespace std;
@@ -32,3 +34,5 @@ class vec3 {
     private:
         friend ostream& operator<<(ostream &stream, vec3 &vec);
 };
+
+# endif // VEC3_H
