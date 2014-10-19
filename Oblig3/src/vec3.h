@@ -1,4 +1,3 @@
-# pragma once
 # ifndef __VEC3_H_INCLUDED__
 # define __VEC3_H_INCLUDED__
 # include <iostream>
