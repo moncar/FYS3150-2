@@ -17,15 +17,15 @@ void SolarSystem::verlet() {
 
     // First iteration.
     // Remember to update which body you are using.
-    CelestialBody* cb = bodies.first->next;
+    CelestialBody *cb = bodies.first->next;
     for (int i = 0; i < numberOfBodies; i++) {
-        cb.file("../RESULTS/Verlet" + p.name + ".txt");
-        newPostion = *(cb.r) + *(cb.v) + 0.5 * (*(cb.a))*dt*dt;
-        cb.prevR = cb.r;
-        cb->r = &newPosition;
-        if (cb.file.is_open()) {
-            cb.file << 0 << "\t" << *(cb.prevR) << "\n";
-            cb.file << dt << "\t" << *(cb.r) << "\n";
+        (*cb).file.open("../RESULTS/Verlet" + cb->name + ".txt");
+        newPosition = cb->r + cb->v + (cb->a)*(0.5*dt*dt);
+        (*cb).prevR = (*cb).r;
+        cb->r = newPosition;
+        if (cb->file.is_open()) {
+            cb->file << 0 << "\t" << cb->prevR << "\n";
+            cb->file << dt << "\t" << cb->r << "\n";
         } else std::cout << "Unable to write to file." << std::endl;
     }
 
@@ -39,6 +39,9 @@ void SolarSystem::verlet() {
                 cb.file << i*dt << "\t" << *(cb.r) << "\n";
             } else std::cout << "Unable to write to file." << endl;
         }
+    }
+    for (int i = 0; i < numberOfBodies; i++) {
+        // Close files
     }
 }
 

@@ -19,7 +19,7 @@ class CelestialBody {
         vec3 F; // Current force on body.
         std::ofstream file;
 
-        CelestialBody* next;
+        CelestialBody* next = NULL;
 
         CelestialBody(std::string n, double m, vec3 r0, vec3 v0);
         void calculateNewForce();

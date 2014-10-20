@@ -15,7 +15,7 @@ class CBList {
         void insertFirst(CelestialBody* newBody);
         void insertLast(CelestialBody* newBody);
         void insertBehind(CelestialBody* thisOne, CelestialBody* newBody);
-        CelestialBody getBody(std::string n);
+        CelestialBody* getBody(std::string n);
 };
 
 # endif // PLANETLIST_H
