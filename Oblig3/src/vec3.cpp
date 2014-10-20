@@ -104,5 +104,3 @@ ostream& operator<<(ostream &stream, vec3 &vec) {
     return stream << "[" << vec.x() << ", " << vec.y() << ", " << vec.z() << "]";
 
 }
-
-int main() {return 0;}

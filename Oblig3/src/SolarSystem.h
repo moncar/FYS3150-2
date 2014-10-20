@@ -1,10 +1,6 @@
-# pragma once
 # ifndef __SOLARSYSTEM_H_INCLUDED__
 # define __SOLARSYSTEM_H_INCLUDED__
-# include <fstream>
 # include <iostream>
-# include "vec3.h"
-# include "CelestialBody.h"
 # include "CBList.h"
 
 class SolarSystem {
@@ -17,18 +13,12 @@ class SolarSystem {
         int N = (int) (time/dt);
         CBList bodies;
 
-        SolarSystem(int NOB, CBList b, double delta, int t) {
-            numberOfBodies = NOB;
-            bodies = b;
-            dt = delta;
-            time = t;
-        }
-
-        void calculateForce() {
-
-        }
+        SolarSystem(int NOB, CBList b, double delta, int t);
+        void calculateForce();
+        void verlet();
+        void RK4();
         
 
-}
+};
 
 # endif // SOLARSYSTEM_H

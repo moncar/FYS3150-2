@@ -3,25 +3,25 @@ RM = rm -r
 CPPFLAGS = -O3 -std=c++11 -pedantic -Wall
 DEPS = src/vec3.h src/CelestialBody.h src/CBList.h
 TESTFLAGS = -lgtest
-COMP = run/vec3 run/CelestialBody
+COMP = run/vec3.o run/CelestialBody.o run/CBList.o run/SolarSystem.o
 
 run:
 	mkdir -p run/TEST
 
-run/CelestialBody: src/CelestialBody.cpp $(DEPS) | run
-	 $(CXX) $(CPPFLAGS) $< -o $@
+run/CelestialBody.o: src/CelestialBody.cpp $(DEPS) | run
+	 $(CXX) $(CPPFLAGS) $< -c -o $@
 
-#run/SolarSystem: src/SolarSystem.cpp src/PlanetList.h $(DEPS) | run
-#	 $(CXX) $(CPPFLAGS) $< -o $@
+run/SolarSystem.o: src/SolarSystem.cpp $(DEPS) | run
+	 $(CXX) $(CPPFLAGS) $< -c -o $@
 
-run/vec3: src/vec3.cpp $(DEPS) | run
-	$(CXX) $(CPPFLAGS) $< -o $@
+run/vec3.o: src/vec3.cpp $(DEPS) | run
+	$(CXX) $(CPPFLAGS) $< -c -o $@
 
-run/CBList: src/CBList.cpp $(DEPS) | run
-	$(CXX) $(CPPFLAGS) $< -o $@
+run/CBList.o: src/CBList.cpp $(DEPS) | run
+	$(CXX) $(CPPFLAGS) $< -c -o $@
 
-run/TEST/testCelestialBody: test/testCelestialBody.cpp $(DEPS) | run/TEST
-	$(CXX) $(CPPFLAGS) $(TESTFLAGS) $< -o $@
+run/TEST/testCelestialBody: test/testCelestialBody.cpp $(DEPS) $(COMP) | run/TEST
+	$(CXX) $(CPPFLAGS) $(TESTFLAGS) $(COMP) $< -o $@
 
 clean:
 	$(RM) run
