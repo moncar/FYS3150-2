@@ -1,6 +1,6 @@
 CXX = g++
 RM = rm -r
-CPPFLAGS = -O3 -std=c++11 -pedantic -Wall
+CPPFLAGS = -g -O3 -std=c++11 -pedantic -Wall
 DEPS = src/vec3.h src/CelestialBody.h src/CBList.h
 TESTFLAGS = -lgtest
 COMP = run/vec3.o run/CelestialBody.o run/CBList.o run/SolarSystem.o

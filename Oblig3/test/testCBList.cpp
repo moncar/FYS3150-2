@@ -3,10 +3,12 @@
 # include "../src/CBList.h"
 
 TEST(Constructor, Pointers) {
-    CBList cbl ();
-    CelestialBody cb = cbl->first;
-    EXPECT_EQ("Listhead", cbl->first.name);
-    EXPECT_EQ("Listhead", *(cbl.last).name);
+    CBList cbl = CBList();
+    CelestialBody *cb = cbl.first;
+    EXPECT_EQ("Listhead", (*cb).name);
+    std::cout << "YO" << std::endl;
+    cb = cbl.last;
+    EXPECT_EQ("Listhead", (*cb).name);
     EXPECT_EQ(0, cbl.numberOfBodies);
 
 }
