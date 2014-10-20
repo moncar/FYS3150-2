@@ -23,5 +23,11 @@ run/CBList.o: src/CBList.cpp $(DEPS) | run
 run/TEST/testCelestialBody: test/testCelestialBody.cpp $(DEPS) $(COMP) | run/TEST
 	$(CXX) $(CPPFLAGS) $(TESTFLAGS) $(COMP) $< -o $@
 
+run/TEST/testVec3: test/testVec3.cpp $(DEPS) $(COMP) | run/TEST
+	$(CXX) $(CPPFLAGS) $(TESTFLAGS) $(COMP) $< -o $@
+
+run/TEST/testCBList: test/testCBList.cpp $(DEPS) $(COMP) | run/TEST
+	$(CXX) $(CPPFLAGS) $(TESTFLAGS) $(COMP) $< -o $@
+
 clean:
 	$(RM) run

@@ -5,8 +5,8 @@ CBList::CBList() {
     std::string head = "Listhead";
     vec3 null (0.0, 0.0, 0.0);
     CelestialBody lh (head, (double) 0, null, null);
-    first = &lh;
-    last = &lh;
+    this->first = &lh;
+    this->last = &lh;
     numberOfBodies = 0;
 }
 

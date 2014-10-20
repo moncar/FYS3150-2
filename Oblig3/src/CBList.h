@@ -7,8 +7,8 @@ class CBList {
     
     public:
 
-        CelestialBody* first;
-        CelestialBody* last;
+        CelestialBody *first = NULL;
+        CelestialBody *last = NULL;
         int numberOfBodies;
 
         CBList();
