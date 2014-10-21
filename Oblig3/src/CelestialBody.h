@@ -22,6 +22,9 @@ class CelestialBody {
         CelestialBody* next = NULL;
 
         CelestialBody(std::string n, double m, vec3 r0, vec3 v0);
+        ~CelestialBody(); // REFRIGERATOR!
+        CelestialBody(const CelestialBody& cb); // Copy constructor.
+        CelestialBody& operator=(const CelestialBody& cb); // Copy assignment.
         void calculateNewForce();
 
 };

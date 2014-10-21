@@ -5,7 +5,8 @@
 TEST(Constructor, Pointers) {
     CBList cbl = CBList();
     CelestialBody *cb = cbl.first;
-    EXPECT_EQ("Listhead", (*cb).name);
+    CelestialBody c = *cb;
+    EXPECT_EQ("Listhead", c.name);
     std::cout << "YO" << std::endl;
     cb = cbl.last;
     EXPECT_EQ("Listhead", (*cb).name);
